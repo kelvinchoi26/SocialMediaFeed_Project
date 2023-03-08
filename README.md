@@ -14,3 +14,36 @@
 - test : 테스트 코드 추가/수정
 - release : 버전 릴리즈
 ```
+
+## Code Convention
+
+```
+disabled_rules:
+    - trailing_whitespace
+    - function_body_length
+    - line_length
+    - orphaned_doc_comment
+    - nesting
+
+opt_in_rules:
+    - let_var_whitespace
+
+excluded:
+    - FogFog-iOS/App/AppDelegate.swift
+    - FogFog-iOS/App/SceneDelegate.swift
+    - FogFog-iOSTests
+    - FogFog-iOSUITests
+    - Pods
+
+file_length:
+    warning: 400
+    error: 500
+
+type_name:
+    min_length: 2
+    
+identifier_name:
+    min_length: 2
+
+force_cast: warning
+```

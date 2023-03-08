@@ -14,6 +14,8 @@
 		1E12938829B796D3005E9307 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1E12938729B796D3005E9307 /* Assets.xcassets */; };
 		1E12938B29B796D3005E9307 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E12938929B796D3005E9307 /* LaunchScreen.storyboard */; };
 		1ED0D50429B79D9600092ABD /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 1ED0D50329B79D9600092ABD /* .swiftlint.yml */; };
+		1EE298AC29B859F6000EC26C /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 1EE298AB29B859F6000EC26C /* .gitignore */; };
+		1EE298BE29B87086000EC26C /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE298BD29B87086000EC26C /* Content.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,8 @@
 		1E12938A29B796D3005E9307 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1E12938C29B796D3005E9307 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1ED0D50329B79D9600092ABD /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		1EE298AB29B859F6000EC26C /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		1EE298BD29B87086000EC26C /* Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +47,7 @@
 			isa = PBXGroup;
 			children = (
 				1ED0D50329B79D9600092ABD /* .swiftlint.yml */,
+				1EE298AB29B859F6000EC26C /* .gitignore */,
 				1E12937D29B796D1005E9307 /* SocialMediaFeed_Project */,
 				1E12937C29B796D1005E9307 /* Products */,
 			);
@@ -59,8 +64,12 @@
 		1E12937D29B796D1005E9307 /* SocialMediaFeed_Project */ = {
 			isa = PBXGroup;
 			children = (
-				1E12937E29B796D1005E9307 /* AppDelegate.swift */,
-				1E12938029B796D1005E9307 /* SceneDelegate.swift */,
+				1EE298B929B86789000EC26C /* Network */,
+				1EE298B329B86523000EC26C /* Model */,
+				1EE298B029B860F2000EC26C /* Utils */,
+				1EE298AF29B860E1000EC26C /* Presentation */,
+				1EE298AE29B860DA000EC26C /* Data */,
+				1EE298AD29B85A9B000EC26C /* Application */,
 				1E12938229B796D1005E9307 /* ViewController.swift */,
 				1E12938429B796D1005E9307 /* Main.storyboard */,
 				1E12938729B796D3005E9307 /* Assets.xcassets */,
@@ -68,6 +77,59 @@
 				1E12938C29B796D3005E9307 /* Info.plist */,
 			);
 			path = SocialMediaFeed_Project;
+			sourceTree = "<group>";
+		};
+		1EE298AD29B85A9B000EC26C /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				1E12937E29B796D1005E9307 /* AppDelegate.swift */,
+				1E12938029B796D1005E9307 /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		1EE298AE29B860DA000EC26C /* Data */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		1EE298AF29B860E1000EC26C /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		1EE298B029B860F2000EC26C /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		1EE298B329B86523000EC26C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1EE298BD29B87086000EC26C /* Content.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1EE298B929B86789000EC26C /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				1EE298BA29B86A5E000EC26C /* Error */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		1EE298BA29B86A5E000EC26C /* Error */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Error;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -129,6 +191,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1EE298AC29B859F6000EC26C /* .gitignore in Resources */,
 				1ED0D50429B79D9600092ABD /* .swiftlint.yml in Resources */,
 				1E12938B29B796D3005E9307 /* LaunchScreen.storyboard in Resources */,
 				1E12938829B796D3005E9307 /* Assets.xcassets in Resources */,
@@ -167,6 +230,7 @@
 				1E12938329B796D1005E9307 /* ViewController.swift in Sources */,
 				1E12937F29B796D1005E9307 /* AppDelegate.swift in Sources */,
 				1E12938129B796D1005E9307 /* SceneDelegate.swift in Sources */,
+				1EE298BE29B87086000EC26C /* Content.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
