@@ -18,6 +18,7 @@
 		1EE298BE29B87086000EC26C /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE298BD29B87086000EC26C /* Content.swift */; };
 		1EE298C229B8755D000EC26C /* Influencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE298C129B8755D000EC26C /* Influencer.swift */; };
 		1EE298C429B8760F000EC26C /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE298C329B8760F000EC26C /* Post.swift */; };
+		1EE298C629B87CE8000EC26C /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE298C529B87CE8000EC26C /* NetworkError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		1EE298BD29B87086000EC26C /* Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
 		1EE298C129B8755D000EC26C /* Influencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Influencer.swift; sourceTree = "<group>"; };
 		1EE298C329B8760F000EC26C /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		1EE298C529B87CE8000EC26C /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +136,7 @@
 		1EE298BA29B86A5E000EC26C /* Error */ = {
 			isa = PBXGroup;
 			children = (
+				1EE298C529B87CE8000EC26C /* NetworkError.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -234,6 +237,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1E12938329B796D1005E9307 /* ViewController.swift in Sources */,
+				1EE298C629B87CE8000EC26C /* NetworkError.swift in Sources */,
 				1EE298C229B8755D000EC26C /* Influencer.swift in Sources */,
 				1E12937F29B796D1005E9307 /* AppDelegate.swift in Sources */,
 				1EE298C429B8760F000EC26C /* Post.swift in Sources */,
