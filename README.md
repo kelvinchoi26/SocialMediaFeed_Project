@@ -28,13 +28,6 @@ disabled_rules:
 opt_in_rules:
     - let_var_whitespace
 
-excluded:
-    - FogFog-iOS/App/AppDelegate.swift
-    - FogFog-iOS/App/SceneDelegate.swift
-    - FogFog-iOSTests
-    - FogFog-iOSUITests
-    - Pods
-
 file_length:
     warning: 400
     error: 500
