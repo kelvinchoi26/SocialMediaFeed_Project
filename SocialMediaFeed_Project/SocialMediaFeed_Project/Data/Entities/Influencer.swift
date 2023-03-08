@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Influencer {
+struct Influencer: Codable {
     let displayName: String
     let profileThumbnailUrl: String
     let followCount: Int

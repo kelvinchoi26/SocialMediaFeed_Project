@@ -19,6 +19,10 @@
 		1EE298C229B8755D000EC26C /* Influencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE298C129B8755D000EC26C /* Influencer.swift */; };
 		1EE298C429B8760F000EC26C /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE298C329B8760F000EC26C /* Post.swift */; };
 		1EE298C629B87CE8000EC26C /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE298C529B87CE8000EC26C /* NetworkError.swift */; };
+		1EE298C929B8838A000EC26C /* URLPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE298C829B8838A000EC26C /* URLPath.swift */; };
+		1EE298CC29B8C4CF000EC26C /* FeedAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE298CB29B8C4CF000EC26C /* FeedAPIService.swift */; };
+		1EE298CF29B8C4F3000EC26C /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 1EE298CE29B8C4F3000EC26C /* Alamofire */; };
+		1EE298D629B8E737000EC26C /* FeedResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE298D529B8E737000EC26C /* FeedResponseDTO.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +40,9 @@
 		1EE298C129B8755D000EC26C /* Influencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Influencer.swift; sourceTree = "<group>"; };
 		1EE298C329B8760F000EC26C /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		1EE298C529B87CE8000EC26C /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		1EE298C829B8838A000EC26C /* URLPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLPath.swift; sourceTree = "<group>"; };
+		1EE298CB29B8C4CF000EC26C /* FeedAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedAPIService.swift; sourceTree = "<group>"; };
+		1EE298D529B8E737000EC26C /* FeedResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedResponseDTO.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +50,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1EE298CF29B8C4F3000EC26C /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,7 +79,6 @@
 			isa = PBXGroup;
 			children = (
 				1EE298B929B86789000EC26C /* Network */,
-				1EE298B329B86523000EC26C /* Model */,
 				1EE298B029B860F2000EC26C /* Utils */,
 				1EE298AF29B860E1000EC26C /* Presentation */,
 				1EE298AE29B860DA000EC26C /* Data */,
@@ -97,6 +104,8 @@
 		1EE298AE29B860DA000EC26C /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				1EE298D329B8E68C000EC26C /* DataMapping */,
+				1EE298D229B8E633000EC26C /* Entities */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -115,19 +124,11 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		1EE298B329B86523000EC26C /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				1EE298BD29B87086000EC26C /* Content.swift */,
-				1EE298C129B8755D000EC26C /* Influencer.swift */,
-				1EE298C329B8760F000EC26C /* Post.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		1EE298B929B86789000EC26C /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				1EE298CA29B8C0B8000EC26C /* Service */,
+				1EE298C729B88022000EC26C /* URLPath */,
 				1EE298BA29B86A5E000EC26C /* Error */,
 			);
 			path = Network;
@@ -139,6 +140,40 @@
 				1EE298C529B87CE8000EC26C /* NetworkError.swift */,
 			);
 			path = Error;
+			sourceTree = "<group>";
+		};
+		1EE298C729B88022000EC26C /* URLPath */ = {
+			isa = PBXGroup;
+			children = (
+				1EE298C829B8838A000EC26C /* URLPath.swift */,
+			);
+			path = URLPath;
+			sourceTree = "<group>";
+		};
+		1EE298CA29B8C0B8000EC26C /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				1EE298CB29B8C4CF000EC26C /* FeedAPIService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		1EE298D229B8E633000EC26C /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				1EE298BD29B87086000EC26C /* Content.swift */,
+				1EE298C129B8755D000EC26C /* Influencer.swift */,
+				1EE298C329B8760F000EC26C /* Post.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		1EE298D329B8E68C000EC26C /* DataMapping */ = {
+			isa = PBXGroup;
+			children = (
+				1EE298D529B8E737000EC26C /* FeedResponseDTO.swift */,
+			);
+			path = DataMapping;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -158,6 +193,9 @@
 			dependencies = (
 			);
 			name = SocialMediaFeed_Project;
+			packageProductDependencies = (
+				1EE298CE29B8C4F3000EC26C /* Alamofire */,
+			);
 			productName = SocialMediaFeed_Project;
 			productReference = 1E12937B29B796D1005E9307 /* SocialMediaFeed_Project.app */;
 			productType = "com.apple.product-type.application";
@@ -186,6 +224,9 @@
 				Base,
 			);
 			mainGroup = 1E12937229B796D1005E9307;
+			packageReferences = (
+				1EE298CD29B8C4F3000EC26C /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			productRefGroup = 1E12937C29B796D1005E9307 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -236,13 +277,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1EE298C929B8838A000EC26C /* URLPath.swift in Sources */,
 				1E12938329B796D1005E9307 /* ViewController.swift in Sources */,
 				1EE298C629B87CE8000EC26C /* NetworkError.swift in Sources */,
 				1EE298C229B8755D000EC26C /* Influencer.swift in Sources */,
 				1E12937F29B796D1005E9307 /* AppDelegate.swift in Sources */,
 				1EE298C429B8760F000EC26C /* Post.swift in Sources */,
+				1EE298D629B8E737000EC26C /* FeedResponseDTO.swift in Sources */,
 				1E12938129B796D1005E9307 /* SceneDelegate.swift in Sources */,
 				1EE298BE29B87086000EC26C /* Content.swift in Sources */,
+				1EE298CC29B8C4CF000EC26C /* FeedAPIService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -392,11 +436,13 @@
 				DEVELOPMENT_TEAM = AFMSUTLF6S;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SocialMediaFeed_Project/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SocialMediaFeed;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -420,11 +466,13 @@
 				DEVELOPMENT_TEAM = AFMSUTLF6S;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SocialMediaFeed_Project/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SocialMediaFeed;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -460,6 +508,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1EE298CD29B8C4F3000EC26C /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = exactVersion;
+				version = 5.6.4;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1EE298CE29B8C4F3000EC26C /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1EE298CD29B8C4F3000EC26C /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1E12937329B796D1005E9307 /* Project object */;
 }

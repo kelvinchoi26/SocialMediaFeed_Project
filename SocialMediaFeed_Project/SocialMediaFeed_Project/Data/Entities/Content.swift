@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Content {
+struct Content: Codable {
     let url: URL
     let type: String
     
