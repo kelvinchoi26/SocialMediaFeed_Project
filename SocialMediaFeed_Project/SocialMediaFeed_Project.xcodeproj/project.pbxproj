@@ -17,6 +17,7 @@
 		1EE298AC29B859F6000EC26C /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 1EE298AB29B859F6000EC26C /* .gitignore */; };
 		1EE298BE29B87086000EC26C /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE298BD29B87086000EC26C /* Content.swift */; };
 		1EE298C229B8755D000EC26C /* Influencer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE298C129B8755D000EC26C /* Influencer.swift */; };
+		1EE298C429B8760F000EC26C /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE298C329B8760F000EC26C /* Post.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		1EE298AB29B859F6000EC26C /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		1EE298BD29B87086000EC26C /* Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
 		1EE298C129B8755D000EC26C /* Influencer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Influencer.swift; sourceTree = "<group>"; };
+		1EE298C329B8760F000EC26C /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +118,7 @@
 			children = (
 				1EE298BD29B87086000EC26C /* Content.swift */,
 				1EE298C129B8755D000EC26C /* Influencer.swift */,
+				1EE298C329B8760F000EC26C /* Post.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -233,6 +236,7 @@
 				1E12938329B796D1005E9307 /* ViewController.swift in Sources */,
 				1EE298C229B8755D000EC26C /* Influencer.swift in Sources */,
 				1E12937F29B796D1005E9307 /* AppDelegate.swift in Sources */,
+				1EE298C429B8760F000EC26C /* Post.swift in Sources */,
 				1E12938129B796D1005E9307 /* SceneDelegate.swift in Sources */,
 				1EE298BE29B87086000EC26C /* Content.swift in Sources */,
 			);

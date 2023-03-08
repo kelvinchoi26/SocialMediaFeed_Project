@@ -17,4 +17,10 @@ struct Influencer {
         self.profileThumbnailUrl = profileThumbnailUrl
         self.followCount = followCount
     }
+    
+    enum CodingKeys: String, CodingKey {
+        case displayName = "display_name"
+        case profileThumbnailUrl = "profile_thumbnail_url"
+        case followCount = "follow_count"
+    }
 }
