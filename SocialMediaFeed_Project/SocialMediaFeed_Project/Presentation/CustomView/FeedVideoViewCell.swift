@@ -14,6 +14,8 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
     
     private var post: Post?
     
+    let urlPath = URL(string: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4")
+    
     var videoPlayer: AVPlayer?
     let playerLayer = AVPlayerLayer()
     
@@ -29,6 +31,8 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        configureUI()
     }
     
     required init?(coder: NSCoder) {
@@ -36,6 +40,8 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
     }
     
     override func configureUI() {
+        videoPlayer = AVPlayer(url: urlPath!)
+        
         videoPlayer?.do {
             $0.volume = 0
             $0.play()
@@ -58,9 +64,11 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
 extension FeedVideoViewCell {
     
     public func loadVideo(url: String) {
-        guard let urlPath = URL(string: url) else {
+        guard let urlPath = URL(string: url) else { print("로드 안된다 임마")
             return
         }
+        
+        print(urlPath)
 
         videoPlayer = AVPlayer(url: urlPath)
     }

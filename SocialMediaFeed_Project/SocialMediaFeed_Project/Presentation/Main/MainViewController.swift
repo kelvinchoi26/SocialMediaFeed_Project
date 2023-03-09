@@ -67,7 +67,9 @@ extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedVideoViewCell.reuseIdentifier, for: indexPath) as! FeedVideoViewCell
         
-        cell.loadVideo(url: contents[indexPath.row])
+        cell.loadVideo(url: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4")
+
+        print("로드 됨!!")
         return cell
     }
     
