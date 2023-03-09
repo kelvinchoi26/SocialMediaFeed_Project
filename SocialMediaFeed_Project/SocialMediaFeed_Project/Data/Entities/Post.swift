@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Post {
+struct Post: Codable {
     let id: String
     let influencer: Influencer
     let contents: [Content]

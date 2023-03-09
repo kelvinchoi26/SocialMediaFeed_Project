@@ -8,10 +8,20 @@
 import Foundation
 
 struct FeedResponseDTO: Decodable {
-    let id: String
-    let influencer: Influencer
-    let contents: [Content]
-    let likeCount: Int
-    let description: String
+    let count: Int
+    let page: Int
+    let posts: [Post]
 }
+
+extension FeedResponseDTO {
+    func returnPosts() -> [Post] {
+        var postList = [Post]()
+        
+        posts.forEach {
+            $0.contents
+        }
+    }
+}
+
+
 
