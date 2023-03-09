@@ -12,7 +12,9 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
     
     static let reuseIdentifier = "FeedVideoViewCell"
     
-    let videoPlayer = AVPlayer()
+    private var post: Post?
+    
+    var videoPlayer: AVPlayer?
     let playerLayer = AVPlayerLayer()
     
     let influencerName = UILabel()
@@ -34,7 +36,7 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
     }
     
     override func configureUI() {
-        videoPlayer.do {
+        videoPlayer?.do {
             $0.volume = 0
             $0.play()
         }
@@ -48,13 +50,18 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
         }
         
         contentView.layer.addSublayer(playerLayer)
+        contentView.backgroundColor = .red
         contentView.clipsToBounds = true
     }
 }
 
 extension FeedVideoViewCell {
     
-    func loadVideo(url: URL) {
-        
+    public func loadVideo(url: String) {
+        guard let urlPath = URL(string: url) else {
+            return
+        }
+
+        videoPlayer = AVPlayer(url: urlPath)
     }
 }

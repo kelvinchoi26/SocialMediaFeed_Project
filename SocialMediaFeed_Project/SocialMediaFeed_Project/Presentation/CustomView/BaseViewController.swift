@@ -8,11 +8,13 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
+import RxCocoa
 
 class BaseViewController: UIViewController {
     
     // MARK: - Properties
-
+    var disposeBag = DisposeBag()
     
     // MARK: - Initializers
     // Designated Init (모든 프로퍼티가 초기화 되어야 함)
