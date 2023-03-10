@@ -8,10 +8,10 @@
 import Foundation
 
 struct Content: Codable {
-    let url: URL
+    let url: String
     let type: String
     
-    init(url: URL, type: String) {
+    init(url: String, type: String) {
         self.url = url
         self.type = type
     }
