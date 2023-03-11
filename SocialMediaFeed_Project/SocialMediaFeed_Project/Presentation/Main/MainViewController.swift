@@ -33,14 +33,14 @@ final class MainViewController: BaseViewController {
     }
     
     // MARK: - Bind
-//    override func bind() {
-//        viewModel.posts
-//            .withUnretained(self)
-//            .bind { vc, posts in
-//                print(posts)
-//            }
-//            .disposed(by: disposeBag)
-//    }
+    override func bind() {
+        viewModel.posts
+            .withUnretained(self)
+            .bind { vc, posts in
+                print(posts)
+            }
+            .disposed(by: disposeBag)
+    }
 }
 
 extension MainViewController {
@@ -48,7 +48,12 @@ extension MainViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.itemSize = CGSize(width: view.frame.size.width, height: view.frame.size.height)
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        
+        // 뷰컨트롤러 끝 도달 시 남는 공간 발생하는 거 방지
+        collectionView?.contentInsetAdjustmentBehavior = .never
+        layout.sectionInset = .zero
+        collectionView?.contentInset = .zero
+        collectionView?.scrollIndicatorInsets = .zero
         
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView?.register(FeedVideoViewCell.self, forCellWithReuseIdentifier: FeedVideoViewCell.reuseIdentifier)

@@ -13,19 +13,21 @@ final class MainViewModel {
     
     // MARK: - Properties
     private let disposeBag = DisposeBag()
-    let service = FeedAPIService.shared
-    let posts = BehaviorRelay<[Post]>(value: [])
+    private let service = FeedAPIService.shared
+    
+    var posts = BehaviorRelay<[Post]>(value: [])
     
     // MARK: - Methods
-    func fetchContents(page: Int) {
-        service.fetchPosts(page: page) { result in
-            switch result {
-            case .success(let data):
-                self.posts.accept(data)
-            case .failure(let error):
-                print("Error fetching Content: \(error.localizedDescription)")
-            }
-        }
-    }
+//    func fetchContents(page: Int) {
+//        service.fetchPosts(page: page) { result in
+//            switch result {
+//            case .success(let data):
+//                let
+//                self.posts.accept(data)
+//            case .failure(let error):
+//                print("Error fetching Content: \(error.localizedDescription)")
+//            }
+//        }
+//    }
     
 }

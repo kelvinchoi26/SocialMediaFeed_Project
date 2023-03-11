@@ -21,6 +21,11 @@
 		1E12938629B796D1005E9307 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E12938429B796D1005E9307 /* Main.storyboard */; };
 		1E12938829B796D3005E9307 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1E12938729B796D3005E9307 /* Assets.xcassets */; };
 		1E12938B29B796D3005E9307 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E12938929B796D3005E9307 /* LaunchScreen.storyboard */; };
+		1E1C0F7429BC82A300FE5012 /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1C0F7329BC82A300FE5012 /* UIButton+Extension.swift */; };
+		1E1C0F7929BC8A1500FE5012 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1C0F7829BC8A1500FE5012 /* Constants.swift */; };
+		1E1C0F8029BC8B7000FE5012 /* YouTubeSansRegular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1E1C0F7D29BC8B7000FE5012 /* YouTubeSansRegular.otf */; };
+		1E1C0F8129BC8B7000FE5012 /* YouTubeSansBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1E1C0F7E29BC8B7000FE5012 /* YouTubeSansBold.otf */; };
+		1E1C0F8229BC8B7000FE5012 /* YouTubeSansMedium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1E1C0F7F29BC8B7000FE5012 /* YouTubeSansMedium.otf */; };
 		1ED0D50429B79D9600092ABD /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 1ED0D50329B79D9600092ABD /* .swiftlint.yml */; };
 		1EE298AC29B859F6000EC26C /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 1EE298AB29B859F6000EC26C /* .gitignore */; };
 		1EE298BE29B87086000EC26C /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE298BD29B87086000EC26C /* Content.swift */; };
@@ -52,6 +57,11 @@
 		1E12938729B796D3005E9307 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1E12938A29B796D3005E9307 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1E12938C29B796D3005E9307 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1E1C0F7329BC82A300FE5012 /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
+		1E1C0F7829BC8A1500FE5012 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		1E1C0F7D29BC8B7000FE5012 /* YouTubeSansRegular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = YouTubeSansRegular.otf; sourceTree = "<group>"; };
+		1E1C0F7E29BC8B7000FE5012 /* YouTubeSansBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = YouTubeSansBold.otf; sourceTree = "<group>"; };
+		1E1C0F7F29BC8B7000FE5012 /* YouTubeSansMedium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = YouTubeSansMedium.otf; sourceTree = "<group>"; };
 		1ED0D50329B79D9600092ABD /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		1EE298AB29B859F6000EC26C /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		1EE298BD29B87086000EC26C /* Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
@@ -143,6 +153,40 @@
 			path = SocialMediaFeed_Project;
 			sourceTree = "<group>";
 		};
+		1E1C0F7529BC89E700FE5012 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				1E1C0F7829BC8A1500FE5012 /* Constants.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		1E1C0F7629BC89EF00FE5012 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				1E1C0F7329BC82A300FE5012 /* UIButton+Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		1E1C0F7729BC89FD00FE5012 /* VideoModel */ = {
+			isa = PBXGroup;
+			children = (
+				1E06030329B9CF7C007BDE6D /* ViewModelType.swift */,
+			);
+			path = VideoModel;
+			sourceTree = "<group>";
+		};
+		1E1C0F7C29BC8AEF00FE5012 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				1E1C0F7E29BC8B7000FE5012 /* YouTubeSansBold.otf */,
+				1E1C0F7F29BC8B7000FE5012 /* YouTubeSansMedium.otf */,
+				1E1C0F7D29BC8B7000FE5012 /* YouTubeSansRegular.otf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		1EE298AD29B85A9B000EC26C /* Application */ = {
 			isa = PBXGroup;
 			children = (
@@ -173,7 +217,10 @@
 		1EE298B029B860F2000EC26C /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				1E06030329B9CF7C007BDE6D /* ViewModelType.swift */,
+				1E1C0F7C29BC8AEF00FE5012 /* Fonts */,
+				1E1C0F7729BC89FD00FE5012 /* VideoModel */,
+				1E1C0F7629BC89EF00FE5012 /* Extension */,
+				1E1C0F7529BC89E700FE5012 /* Constants */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -316,11 +363,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E1C0F8129BC8B7000FE5012 /* YouTubeSansBold.otf in Resources */,
 				1EE298AC29B859F6000EC26C /* .gitignore in Resources */,
 				1ED0D50429B79D9600092ABD /* .swiftlint.yml in Resources */,
 				1E12938B29B796D3005E9307 /* LaunchScreen.storyboard in Resources */,
 				1E12938829B796D3005E9307 /* Assets.xcassets in Resources */,
 				1E12938629B796D1005E9307 /* Main.storyboard in Resources */,
+				1E1C0F8029BC8B7000FE5012 /* YouTubeSansRegular.otf in Resources */,
+				1E1C0F8229BC8B7000FE5012 /* YouTubeSansMedium.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -356,6 +406,7 @@
 				1E12938329B796D1005E9307 /* ViewController.swift in Sources */,
 				1E0602F729B93F4F007BDE6D /* FeedImageViewCell.swift in Sources */,
 				1EE298DC29B8F56F000EC26C /* BaseViewController.swift in Sources */,
+				1E1C0F7429BC82A300FE5012 /* UIButton+Extension.swift in Sources */,
 				1EE298E729B8F65F000EC26C /* BaseView.swift in Sources */,
 				1EE298C629B87CE8000EC26C /* NetworkError.swift in Sources */,
 				1EE298E929B8F685000EC26C /* FeedVideoViewCell.swift in Sources */,
@@ -366,6 +417,7 @@
 				1E0602FC29B95064007BDE6D /* BaseCollectionViewCell.swift in Sources */,
 				1E12937F29B796D1005E9307 /* AppDelegate.swift in Sources */,
 				1EE298C429B8760F000EC26C /* Post.swift in Sources */,
+				1E1C0F7929BC8A1500FE5012 /* Constants.swift in Sources */,
 				1EE298D629B8E737000EC26C /* FeedResponseDTO.swift in Sources */,
 				1E12938129B796D1005E9307 /* SceneDelegate.swift in Sources */,
 				1EE298BE29B87086000EC26C /* Content.swift in Sources */,

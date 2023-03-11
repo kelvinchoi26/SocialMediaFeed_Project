@@ -25,11 +25,9 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
     let influencerName = UILabel()
     let influencerProfile = UIImageView()
     
-    let likeButton = UIImageView()
-    let likeCount = UILabel()
+    let likeButton = UIButton()
     
-    let followButton = UIImageView()
-    let followCount = UILabel()
+    let followButton = UIButton()
     
     let moreInfo = UIImageView()
     
@@ -37,11 +35,20 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
     
     let videoContainer = UIView()
     
+    // MARK: - Overridden Functions
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        // 이미지가 설정된 이후에 cornerRadius 설정
+        influencerProfile.layer.cornerRadius = influencerProfile.frame.width / 2
+    }
+    
     // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         configureUI()
+        self.backgroundColor = .red
     }
     
     required init?(coder: NSCoder) {
@@ -69,35 +76,53 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
             $0.image = UIImage(named: "speaker.wave.2.fill")
             $0.backgroundColor = .clear
             $0.tintColor = .white
+            
+            // Add shadow effect
+            $0.layer.shadowColor = UIColor.black.cgColor
+            $0.layer.shadowOpacity = 0.5
+            $0.layer.shadowOffset = CGSize(width: 0, height: 2)
+            $0.layer.shadowRadius = 2
         }
         
         likeButton.do {
-            $0.image = UIImage(named: "heart.fill")
+            $0.setImage(UIImage(named: "heart.fill"), for: .normal)
             $0.backgroundColor = .clear
             $0.tintColor = .white
-        }
-        
-        likeCount.do {
-            $0.adjustsFontSizeToFitWidth = true
-            $0.textAlignment = .center
-            $0.textColor = .white
+            
+            $0.setTitleColor(.white, for: .normal)
+            $0.titleLabel?.font = Constants.Font.MediumFont
+            
+            // Add shadow effect
+            $0.layer.shadowColor = UIColor.black.cgColor
+            $0.layer.shadowOpacity = 0.5
+            $0.layer.shadowOffset = CGSize(width: 0, height: 2)
+            $0.layer.shadowRadius = 2
         }
         
         followButton.do {
-            $0.image = UIImage(named: "person.crop.circle.badge.plus")
+            $0.setImage(UIImage(named: "person.crop.circle.badge.plus"), for: .normal)
             $0.backgroundColor = .clear
             $0.tintColor = .white
-        }
-        
-        followCount.do {
-            $0.adjustsFontSizeToFitWidth = true
-            $0.textAlignment = .center
-            $0.textColor = .white
+            
+            $0.setTitleColor(.white, for: .normal)
+            $0.titleLabel?.font = Constants.Font.MediumFont
+            
+            // Add shadow effect
+            $0.layer.shadowColor = UIColor.black.cgColor
+            $0.layer.shadowOpacity = 0.5
+            $0.layer.shadowOffset = CGSize(width: 0, height: 2)
+            $0.layer.shadowRadius = 2
         }
         
         moreInfo.do {
             $0.image = UIImage(named: "ellipsis")
             $0.tintColor = .white
+            
+            // Add shadow effect
+            $0.layer.shadowColor = UIColor.black.cgColor
+            $0.layer.shadowOpacity = 0.5
+            $0.layer.shadowOffset = CGSize(width: 0, height: 2)
+            $0.layer.shadowRadius = 2
         }
         
         influencerProfile.do {
@@ -105,23 +130,41 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
             $0.layer.borderWidth = 1
             $0.layer.borderColor = UIColor.clear.cgColor
             $0.clipsToBounds = true
+            
+            // Add shadow effect
+            $0.layer.shadowColor = UIColor.black.cgColor
+            $0.layer.shadowOpacity = 0.5
+            $0.layer.shadowOffset = CGSize(width: 0, height: 2)
+            $0.layer.shadowRadius = 2
         }
         
         influencerName.do {
-            $0.adjustsFontSizeToFitWidth = true
+            $0.font = Constants.Font.MediumFont
             $0.textColor = .white
+            
+            // Add shadow effect
+            $0.layer.shadowColor = UIColor.black.cgColor
+            $0.layer.shadowOpacity = 0.5
+            $0.layer.shadowOffset = CGSize(width: 0, height: 2)
+            $0.layer.shadowRadius = 2
         }
         
         descriptionTextView.do {
-            $0.adjustsFontForContentSizeCategory = true
+            $0.font = Constants.Font.RegularFont
             $0.textColor = .white
             $0.backgroundColor = .clear
+            
+            // Add shadow effect
+            $0.layer.shadowColor = UIColor.black.cgColor
+            $0.layer.shadowOpacity = 0.5
+            $0.layer.shadowOffset = CGSize(width: 0, height: 2)
+            $0.layer.shadowRadius = 2
         }
         
         videoContainer.layer.addSublayer(playerLayer)
         contentView.clipsToBounds = true
         
-        [videoContainer, volumeButton, moreInfo, followCount, followButton, likeCount, likeButton, descriptionTextView, influencerProfile, influencerName].forEach {
+        [videoContainer, volumeButton, moreInfo, followButton, likeButton, descriptionTextView, influencerProfile, influencerName].forEach {
             contentView.addSubview($0)
         }
         
@@ -136,37 +179,22 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
         videoContainer.frame = contentView.bounds
         
         volumeButton.snp.makeConstraints {
-            $0.width.height.equalTo(self.safeAreaLayoutGuide).multipliedBy(0.1)
-            $0.top.trailing.equalTo(self.safeAreaLayoutGuide).inset(10)
+            $0.top.equalTo(self.safeAreaLayoutGuide).inset(30)
+            $0.trailing.equalTo(self.safeAreaLayoutGuide).inset(22)
         }
         moreInfo.snp.makeConstraints {
-            $0.width.height.equalTo(self.safeAreaLayoutGuide).multipliedBy(0.1)
-            $0.trailing.equalTo(self.safeAreaLayoutGuide).inset(10)
+            $0.trailing.equalTo(self.safeAreaLayoutGuide).inset(22)
             $0.bottom.equalTo(self.safeAreaLayoutGuide).inset(100)
         }
         
-        followCount.snp.makeConstraints {
-            $0.width.height.equalTo(self.safeAreaLayoutGuide).multipliedBy(0.1)
-            $0.trailing.equalTo(self.safeAreaLayoutGuide).inset(10)
-            $0.bottom.equalTo(moreInfo.snp.top).inset(25)
-        }
-        
         followButton.snp.makeConstraints {
-            $0.width.height.equalTo(self.safeAreaLayoutGuide).multipliedBy(0.1)
-            $0.trailing.equalTo(self.safeAreaLayoutGuide).inset(10)
-            $0.bottom.equalTo(followCount.snp.top).inset(5)
-        }
-        
-        likeCount.snp.makeConstraints {
-            $0.width.height.equalTo(self.safeAreaLayoutGuide).multipliedBy(0.1)
-            $0.trailing.equalTo(self.safeAreaLayoutGuide).inset(10)
-            $0.bottom.equalTo(followButton.snp.top).inset(25)
+            $0.trailing.equalTo(self.safeAreaLayoutGuide)
+            $0.bottom.equalTo(moreInfo.snp.top).offset(-25)
         }
         
         likeButton.snp.makeConstraints {
-            $0.width.height.equalTo(self.safeAreaLayoutGuide).multipliedBy(0.1)
-            $0.trailing.equalTo(self.safeAreaLayoutGuide).inset(10)
-            $0.bottom.equalTo(likeCount.snp.top).inset(5)
+            $0.trailing.equalTo(self.safeAreaLayoutGuide)
+            $0.bottom.equalTo(followButton.snp.top).offset(-25)
         }
         
         descriptionTextView.snp.makeConstraints {
@@ -176,13 +204,13 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
         }
         
         influencerProfile.snp.makeConstraints {
-            $0.width.height.equalTo(self.safeAreaLayoutGuide).multipliedBy(0.1)
+            $0.width.height.equalTo(self.safeAreaLayoutGuide).multipliedBy(0.05)
             $0.bottom.equalTo(descriptionTextView.snp.top).inset(10)
             $0.leading.equalTo(self.safeAreaLayoutGuide).inset(10)
         }
         
         influencerName.snp.makeConstraints {
-            $0.leading.equalTo(influencerProfile.snp.trailing).inset(10)
+            $0.leading.equalTo(influencerProfile.snp.trailing).offset(10)
             $0.bottom.equalTo(descriptionTextView.snp.top).inset(10)
         }
     }
@@ -200,18 +228,23 @@ extension FeedVideoViewCell {
         }
         
         let url = URL(string: "https://randomuser.me/api/portraits/men/66.jpg")
-        if let data = try? Data(contentsOf: url!) {
-            if let image = UIImage(data: data) {
-                DispatchQueue.main.async { [weak self] in
-                    self?.influencerName.text = "Adam"
-                    self?.influencerProfile.image = image
+        DispatchQueue.global().async {
+            if let data = try? Data(contentsOf: url!) {
+                if let image = UIImage(data: data) {
+                    DispatchQueue.main.async { [weak self] in
+                        self?.influencerName.text = "Adam"
+                        self?.influencerProfile.image = image
+                    }
                 }
             }
         }
         
-        descriptionTextView.text = "She discovered van life is difficult with 2 cats and a dog."
-        
-        likeCount.text = "19908"
-        followCount.text = "28599"
+        DispatchQueue.main.async { [weak self] in
+            self?.descriptionTextView.text = "She discovered van life is difficult with 2 cats and a dog."
+            self?.likeButton.setTitle("1998", for: .normal)
+            self?.likeButton.alignTextBelow()
+            self?.followButton.setTitle("1998", for: .normal)
+            self?.followButton.alignTextBelow()
+        }
     }
 }
