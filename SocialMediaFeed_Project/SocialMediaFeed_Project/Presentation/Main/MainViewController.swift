@@ -15,21 +15,11 @@ final class MainViewController: BaseViewController {
     private var mainCollectionView: UICollectionView!
     private var subCollectionViews = [UICollectionView]()
     
-    let contents = ["https://images.pexels.com/photos/15110299/pexels-photo-15110299.jpeg?auto=compress&cs=tinysrgb&h=650&w=940", "https://images.pexels.com/photos/15171147/pexels-photo-15171147.jpeg?auto=compress&cs=tinysrgb&h=650&w=940", "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"]
-    
     // MARK: - LifeCycles
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureCollectionView()
-        
-        print("나 문제 없어!!!")
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        collectionView?.frame = view.bounds
     }
     
     // MARK: - Bind
@@ -47,13 +37,11 @@ extension MainViewController {
     func configureCollectionView() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.itemSize = CGSize(width: view.frame.size.width, height: view.frame.size.height)
+        layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - view.safeAreaInsets.top - view.safeAreaInsets.bottom)
         
-        // 뷰컨트롤러 끝 도달 시 남는 공간 발생하는 거 방지
-        collectionView?.contentInsetAdjustmentBehavior = .never
-        layout.sectionInset = .zero
-        collectionView?.contentInset = .zero
-        collectionView?.scrollIndicatorInsets = .zero
+        // cell 사이 빈 공간 제거 (화면에 딱 맞게 설정)
+        layout.minimumLineSpacing = 0
+        layout.minimumInteritemSpacing = 0
         
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView?.register(FeedVideoViewCell.self, forCellWithReuseIdentifier: FeedVideoViewCell.reuseIdentifier)
@@ -61,12 +49,14 @@ extension MainViewController {
         collectionView?.dataSource = self
         
         view.addSubview(collectionView ?? UICollectionView())
+        
+        collectionView?.frame = view.bounds
     }
 }
 
 extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return contents.count
+        return 5
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

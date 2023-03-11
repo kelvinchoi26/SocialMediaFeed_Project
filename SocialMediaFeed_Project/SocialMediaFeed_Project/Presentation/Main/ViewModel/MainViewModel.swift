@@ -18,16 +18,16 @@ final class MainViewModel {
     var posts = BehaviorRelay<[Post]>(value: [])
     
     // MARK: - Methods
-//    func fetchContents(page: Int) {
-//        service.fetchPosts(page: page) { result in
-//            switch result {
-//            case .success(let data):
-//                let
-//                self.posts.accept(data)
-//            case .failure(let error):
-//                print("Error fetching Content: \(error.localizedDescription)")
-//            }
-//        }
-//    }
+    func fetchContents(page: Int) {
+        service.fetchPosts(page: page) { result in
+            switch result {
+            case .success(let data):
+                let posts = data.returnPosts()
+                self.posts.accept(posts)
+            case .failure(let error):
+                print("Error fetching Content: \(error.localizedDescription)")
+            }
+        }
+    }
     
 }

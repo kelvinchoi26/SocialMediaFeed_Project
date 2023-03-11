@@ -17,12 +17,12 @@ final class FeedAPIService {
     
     private init() { }
     
-    func fetchPosts(page: Int, completion: @escaping (Result<[Post], NetworkError>) -> Void) {
+    func fetchPosts(page: Int, completion: @escaping (Result<FeedResponseDTO, NetworkError>) -> Void) {
         let url = URLPath.baseURL + String(page)
         
         AF.request(url, method: .get)
             .validate()
-            .responseDecodable(of: [Post].self) { response in
+            .responseDecodable(of: FeedResponseDTO.self) { response in
                 switch response.result {
                 case .success(let result):
                     completion(.success(result))
