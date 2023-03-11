@@ -41,6 +41,7 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
         
         // 이미지가 설정된 이후에 cornerRadius 설정
         influencerProfile.layer.cornerRadius = influencerProfile.frame.width / 2
+        influencerProfile.clipsToBounds = true
     }
     
     // MARK: - Initializers
@@ -126,7 +127,6 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
         }
         
         influencerProfile.do {
-            $0.layer.cornerRadius = $0.frame.width / 2
             $0.layer.borderWidth = 1
             $0.layer.borderColor = UIColor.clear.cgColor
             $0.clipsToBounds = true
@@ -180,20 +180,20 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
         
         volumeButton.snp.makeConstraints {
             $0.top.equalTo(self.safeAreaLayoutGuide).inset(30)
-            $0.trailing.equalTo(self.safeAreaLayoutGuide).inset(22)
+            $0.trailing.equalTo(self.safeAreaLayoutGuide).inset(15)
         }
         moreInfo.snp.makeConstraints {
-            $0.trailing.equalTo(self.safeAreaLayoutGuide).inset(22)
+            $0.trailing.equalTo(self.safeAreaLayoutGuide).inset(15)
             $0.bottom.equalTo(self.safeAreaLayoutGuide).inset(100)
         }
         
         followButton.snp.makeConstraints {
-            $0.trailing.equalTo(self.safeAreaLayoutGuide)
+            $0.trailing.equalTo(self.safeAreaLayoutGuide).inset(1)
             $0.bottom.equalTo(moreInfo.snp.top).offset(-25)
         }
         
         likeButton.snp.makeConstraints {
-            $0.trailing.equalTo(self.safeAreaLayoutGuide)
+            $0.trailing.equalTo(self.safeAreaLayoutGuide).inset(1)
             $0.bottom.equalTo(followButton.snp.top).offset(-25)
         }
         
@@ -204,14 +204,14 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
         }
         
         influencerProfile.snp.makeConstraints {
-            $0.width.height.equalTo(self.safeAreaLayoutGuide).multipliedBy(0.05)
-            $0.bottom.equalTo(descriptionTextView.snp.top).inset(10)
-            $0.leading.equalTo(self.safeAreaLayoutGuide).inset(10)
+            $0.width.height.equalTo(self.safeAreaLayoutGuide).multipliedBy(0.04)
+            $0.bottom.equalTo(descriptionTextView.snp.top)
+            $0.leading.equalTo(self.safeAreaLayoutGuide).inset(18)
         }
         
         influencerName.snp.makeConstraints {
             $0.leading.equalTo(influencerProfile.snp.trailing).offset(10)
-            $0.bottom.equalTo(descriptionTextView.snp.top).inset(10)
+            $0.bottom.equalTo(descriptionTextView.snp.top).offset(-5)
         }
     }
 }
