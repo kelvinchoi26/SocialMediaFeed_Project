@@ -57,6 +57,8 @@ extension MainViewController {
         
         // 첫번째 cell의 navigation bar 위치에 발생하는 공간 제거
         collectionView?.contentInsetAdjustmentBehavior = .never
+        
+        collectionView?.showsVerticalScrollIndicator = false
     }
 }
 
