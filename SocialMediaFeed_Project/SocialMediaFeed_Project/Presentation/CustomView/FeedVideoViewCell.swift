@@ -19,7 +19,7 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
     var videoPlayer: AVPlayer?
     let playerLayer = AVPlayerLayer()
     
-    let volumeButton = UIImageView()
+    let volumeButton = UIButton()
     
     let influencerName = UILabel()
     let influencerProfile = UIImageView()
@@ -73,7 +73,7 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
         }
         
         volumeButton.do {
-            $0.image = UIImage(named: "speaker.wave.2.fill")
+            $0.setImage(UIImage(named: "speaker.wave.2.fill"), for: .normal)
             $0.backgroundColor = .clear
             $0.tintColor = .white
             
@@ -196,7 +196,7 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
 
 extension FeedVideoViewCell {
     
-    public func configure(with post: Post, content: Content) {
+    func configureCell(with post: Post, content: Content) {
         self.post = post
         self.content = content
         

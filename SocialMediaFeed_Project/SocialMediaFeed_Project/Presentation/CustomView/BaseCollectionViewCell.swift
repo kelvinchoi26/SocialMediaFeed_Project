@@ -17,6 +17,7 @@ class BaseCollectionViewCell: UICollectionViewCell {
         
         configureUI()
         setConstraints()
+        configureCell()
     }
     
     required init?(coder: NSCoder) {
@@ -26,5 +27,7 @@ class BaseCollectionViewCell: UICollectionViewCell {
     func configureUI() {}
     
     func setConstraints() {}
+    
+    func configureCell() {}
     
 }

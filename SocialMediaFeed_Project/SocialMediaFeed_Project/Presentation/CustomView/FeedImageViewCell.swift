@@ -15,7 +15,9 @@ final class FeedImageViewCell: BaseCollectionViewCell {
     var post: Post?
     var content: Content?
     
-    let volumeButton = UIImageView()
+    let contentImageView = UIImageView()
+    
+    let volumeButton = UIButton()
     
     let influencerName = UILabel()
     let influencerProfile = UIImageView()
@@ -55,9 +57,13 @@ final class FeedImageViewCell: BaseCollectionViewCell {
     
     // MARK: - Attributes
     override func configureUI() {
+        contentImageView.do {
+            $0.contentMode = .scaleAspectFill
+            $0.clipsToBounds = true
+        }
         
         volumeButton.do {
-            $0.image = UIImage(named: "speaker.wave.2.fill")
+            $0.setImage(UIImage(named: "speaker.wave.2.fill"), for: .normal)
             $0.backgroundColor = .clear
             $0.tintColor = .white
             
@@ -123,22 +129,20 @@ final class FeedImageViewCell: BaseCollectionViewCell {
             $0.shadowEffect()
         }
         
-        videoContainer.layer.addSublayer(playerLayer)
+        contentView.addSubview(contentImageView)
         contentView.clipsToBounds = true
         
-        [videoContainer, volumeButton, moreInfo, followButton, likeButton, descriptionTextView, influencerProfile, influencerName].forEach {
+        [contentImageView, volumeButton, moreInfo, followButton, likeButton, descriptionTextView, influencerProfile, influencerName].forEach {
             contentView.addSubview($0)
         }
         
-        videoContainer.clipsToBounds = true
-        
-        // videoContainer UIView를 이용해 영상/이미지가 다른 components보다 뒤로 위치되게
-        contentView.sendSubviewToBack(videoContainer)
+        // 이미지가 다른 components보다 뒤로 위치되게
+        contentView.sendSubviewToBack(contentImageView)
     }
     
     // MARK: - Constraints
     override func setConstraints() {
-        videoContainer.frame = contentView.bounds
+        contentImageView.frame = contentView.bounds
         
         volumeButton.snp.makeConstraints {
             $0.top.equalTo(self.safeAreaLayoutGuide).inset(30)
@@ -179,8 +183,7 @@ final class FeedImageViewCell: BaseCollectionViewCell {
 }
 
 extension FeedVideoViewCell {
-    
-    public func configure(with post: Post, content: Content) {
+    func configureCell(with post: Post, content: Content) {
         self.post = post
         self.content = content
         
