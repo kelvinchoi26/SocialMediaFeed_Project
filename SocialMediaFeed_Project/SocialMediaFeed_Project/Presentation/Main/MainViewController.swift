@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 
 final class MainViewController: BaseViewController {
     
@@ -24,13 +25,15 @@ final class MainViewController: BaseViewController {
     
     // MARK: - Bind
     override func bind() {
-        viewModel.posts
-            .bind(to: collectionView!.rx.items(cellIdentifier: FeedVideoViewCell.reuseIdentifier, cellType: FeedVideoViewCell.self)) { row, post, cell in
-                cell.post = post
-            }
-            .disposed(by: disposeBag)
-        
         viewModel.fetchContents(page: 0)
+        
+        viewModel.posts
+            .asObservable()
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] _ in
+                self?.collectionView?.reloadData()
+            })
+            .disposed(by: disposeBag)
     }
 }
 
@@ -45,7 +48,6 @@ extension MainViewController {
         layout.minimumInteritemSpacing = 0
         
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView?.register(FeedVideoViewCell.self, forCellWithReuseIdentifier: FeedVideoViewCell.reuseIdentifier)
         collectionView?.isPagingEnabled = true
         collectionView?.dataSource = self
         
@@ -55,6 +57,9 @@ extension MainViewController {
         
         // 첫번째 cell의 navigation bar 위치에 발생하는 공간 제거
         collectionView?.contentInsetAdjustmentBehavior = .never
+        
+        collectionView?.register(FeedImageViewCell.self, forCellWithReuseIdentifier: FeedImageViewCell.reuseIdentifier)
+        collectionView?.register(FeedVideoViewCell.self, forCellWithReuseIdentifier: FeedVideoViewCell.reuseIdentifier)
     }
 }
 
@@ -64,12 +69,25 @@ extension MainViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedVideoViewCell.reuseIdentifier, for: indexPath) as? FeedVideoViewCell else {
-            return UICollectionViewCell()
-        }
-        
         let post = viewModel.posts.value[indexPath.row]
-        cell.configure(with: post)
-        return cell
+        
+        // 영상인 경우 FeedVideoViewCell, 이미지인 경우 FeedImageViewCell
+        if post.contents[0].type == "video" {
+            print("video!")
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedVideoViewCell.reuseIdentifier, for: indexPath) as? FeedVideoViewCell else {
+                return UICollectionViewCell()
+            }
+            cell.configureVideoCell(with: post, content: post.contents[0])
+            
+            return cell
+        } else {
+            print("image")
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedImageViewCell.reuseIdentifier, for: indexPath) as? FeedImageViewCell else {
+                return UICollectionViewCell()
+            }
+            cell.configureImageCell(with: post, content: post.contents[0])
+            
+            return cell
+        }
     }
 }

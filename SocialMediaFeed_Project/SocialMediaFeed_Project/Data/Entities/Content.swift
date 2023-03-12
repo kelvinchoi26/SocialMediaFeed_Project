@@ -8,11 +8,16 @@
 import Foundation
 
 struct Content: Codable {
-    let url: String
+    let contentURL: String
     let type: String
     
-    init(url: String, type: String) {
-        self.url = url
+    init(contentURL: String, type: String) {
+        self.contentURL = contentURL
         self.type = type
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case contentURL = "content_url"
+        case type
     }
 }

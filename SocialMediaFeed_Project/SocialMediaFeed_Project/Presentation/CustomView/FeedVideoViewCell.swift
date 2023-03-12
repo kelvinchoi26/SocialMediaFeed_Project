@@ -44,10 +44,7 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
     }
     
     // MARK: - Initializers
-    init(post: Post, content: Content, frame: CGRect) {
-        self.post = post
-        self.content = content
-        
+    override init(frame: CGRect) {
         super.init(frame: frame)
         
         configureUI()
@@ -192,39 +189,44 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
             $0.bottom.equalTo(descriptionTextView.snp.top).offset(-5)
         }
     }
+    
 }
 
 extension FeedVideoViewCell {
     
-    func configureCell(with post: Post, content: Content) {
+    func configureVideoCell(with post: Post, content: Content) {
         self.post = post
         self.content = content
-        
-        guard let urlPath = URL(string: "https://storage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4") else { print("로드 안된다 임마")
+
+        guard let videoURL = URL(string: content.contentURL) else { print("유효하지 않은 영상 URL!")
+            return
+        }
+
+        DispatchQueue.main.async { [weak self] in
+            self?.videoPlayer = AVPlayer(url: videoURL)
+        }
+
+        guard let influencerURL = URL(string: post.influencer.profileThumbnailUrl) else { print("유효하지 않은 인플루언서 이미지 URL!")
             return
         }
         
-        DispatchQueue.main.async { [weak self] in
-            self?.videoPlayer = AVPlayer(url: urlPath)
-        }
-        
-        let url = URL(string: "https://randomuser.me/api/portraits/men/66.jpg")
+        // 이미지 URL에서 불러오는 작업은 메인 쓰레드에서 진행하지 않도록
         DispatchQueue.global().async {
-            if let data = try? Data(contentsOf: url!) {
+            if let data = try? Data(contentsOf: influencerURL) {
                 if let image = UIImage(data: data) {
                     DispatchQueue.main.async { [weak self] in
-                        self?.influencerName.text = "Adam"
+                        self?.influencerName.text = post.influencer.displayName
                         self?.influencerProfile.image = image
                     }
                 }
             }
         }
-        
+
         DispatchQueue.main.async { [weak self] in
-            self?.descriptionTextView.text = "She discovered van life is difficult with 2 cats and a dog."
-            self?.likeButton.setTitle("1998", for: .normal)
+            self?.descriptionTextView.text = post.description
+            self?.likeButton.setTitle(String(post.likeCount), for: .normal)
             self?.likeButton.alignTextBelow()
-            self?.followButton.setTitle("1998", for: .normal)
+            self?.followButton.setTitle(String(post.influencer.followCount), for: .normal)
             self?.followButton.alignTextBelow()
         }
     }
