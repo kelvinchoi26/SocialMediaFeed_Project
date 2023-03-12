@@ -13,9 +13,8 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
     // MARK: - Properties
     static let reuseIdentifier = "FeedVideoViewCell"
     
-    var post = Post(id: "1bb7dd70-21f9-4a24-9363-74788d45860c", influencer: Influencer(displayName: "Adam", profileThumbnailUrl: "https://randomuser.me/api/portraits/men/66.jpg", followCount: 28599), contents: [Content(url: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4", type: "video")], likeCount: 19908, description: "She discovered van life is difficult with 2 cats and a dog.")
-    
-    let urlPath = URL(string: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4")
+    var post: Post?
+    var content: Content?
     
     var videoPlayer: AVPlayer?
     let playerLayer = AVPlayerLayer()
@@ -45,11 +44,13 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
     }
     
     // MARK: - Initializers
-    override init(frame: CGRect) {
+    init(post: Post, content: Content, frame: CGRect) {
+        self.post = post
+        self.content = content
+        
         super.init(frame: frame)
         
         configureUI()
-        self.backgroundColor = .red
     }
     
     required init?(coder: NSCoder) {
@@ -58,8 +59,6 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
     
     // MARK: - Attributes
     override func configureUI() {
-        videoPlayer = AVPlayer(url: urlPath!)
-        
         videoPlayer?.do {
             $0.volume = 0
             $0.play()
@@ -79,10 +78,7 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
             $0.tintColor = .white
             
             // Add shadow effect
-            $0.layer.shadowColor = UIColor.black.cgColor
-            $0.layer.shadowOpacity = 0.5
-            $0.layer.shadowOffset = CGSize(width: 0, height: 2)
-            $0.layer.shadowRadius = 2
+            $0.shadowEffect()
         }
         
         likeButton.do {
@@ -94,10 +90,7 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
             $0.titleLabel?.font = Constants.Font.MediumFont
             
             // Add shadow effect
-            $0.layer.shadowColor = UIColor.black.cgColor
-            $0.layer.shadowOpacity = 0.5
-            $0.layer.shadowOffset = CGSize(width: 0, height: 2)
-            $0.layer.shadowRadius = 2
+            $0.shadowEffect()
         }
         
         followButton.do {
@@ -109,10 +102,7 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
             $0.titleLabel?.font = Constants.Font.MediumFont
             
             // Add shadow effect
-            $0.layer.shadowColor = UIColor.black.cgColor
-            $0.layer.shadowOpacity = 0.5
-            $0.layer.shadowOffset = CGSize(width: 0, height: 2)
-            $0.layer.shadowRadius = 2
+            $0.shadowEffect()
         }
         
         moreInfo.do {
@@ -120,10 +110,7 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
             $0.tintColor = .white
             
             // Add shadow effect
-            $0.layer.shadowColor = UIColor.black.cgColor
-            $0.layer.shadowOpacity = 0.5
-            $0.layer.shadowOffset = CGSize(width: 0, height: 2)
-            $0.layer.shadowRadius = 2
+            $0.shadowEffect()
         }
         
         influencerProfile.do {
@@ -132,10 +119,7 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
             $0.clipsToBounds = true
             
             // Add shadow effect
-            $0.layer.shadowColor = UIColor.black.cgColor
-            $0.layer.shadowOpacity = 0.5
-            $0.layer.shadowOffset = CGSize(width: 0, height: 2)
-            $0.layer.shadowRadius = 2
+            $0.shadowEffect()
         }
         
         influencerName.do {
@@ -143,10 +127,7 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
             $0.textColor = .white
             
             // Add shadow effect
-            $0.layer.shadowColor = UIColor.black.cgColor
-            $0.layer.shadowOpacity = 0.5
-            $0.layer.shadowOffset = CGSize(width: 0, height: 2)
-            $0.layer.shadowRadius = 2
+            $0.shadowEffect()
         }
         
         descriptionTextView.do {
@@ -155,10 +136,7 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
             $0.backgroundColor = .clear
             
             // Add shadow effect
-            $0.layer.shadowColor = UIColor.black.cgColor
-            $0.layer.shadowOpacity = 0.5
-            $0.layer.shadowOffset = CGSize(width: 0, height: 2)
-            $0.layer.shadowRadius = 2
+            $0.shadowEffect()
         }
         
         videoContainer.layer.addSublayer(playerLayer)
@@ -218,7 +196,10 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
 
 extension FeedVideoViewCell {
     
-    public func loadVideo() {
+    public func configure(with post: Post, content: Content) {
+        self.post = post
+        self.content = content
+        
         guard let urlPath = URL(string: "https://storage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4") else { print("로드 안된다 임마")
             return
         }

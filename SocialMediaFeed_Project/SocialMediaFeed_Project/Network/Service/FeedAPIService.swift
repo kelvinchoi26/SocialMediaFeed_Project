@@ -7,8 +7,6 @@
 
 import Foundation
 import Alamofire
-import RxSwift
-import RxCocoa
 
 final class FeedAPIService {
     

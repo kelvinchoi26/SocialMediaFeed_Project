@@ -25,11 +25,12 @@ final class MainViewController: BaseViewController {
     // MARK: - Bind
     override func bind() {
         viewModel.posts
-            .withUnretained(self)
-            .bind { vc, posts in
-                print(posts)
+            .bind(to: collectionView!.rx.items(cellIdentifier: FeedVideoViewCell.reuseIdentifier, cellType: FeedVideoViewCell.self)) { row, post, cell in
+                cell.post = post
             }
             .disposed(by: disposeBag)
+        
+        viewModel.fetchContents(page: 0)
     }
 }
 
@@ -59,17 +60,16 @@ extension MainViewController {
 
 extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return viewModel.posts.value.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedVideoViewCell.reuseIdentifier, for: indexPath) as! FeedVideoViewCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedVideoViewCell.reuseIdentifier, for: indexPath) as? FeedVideoViewCell else {
+            return UICollectionViewCell()
+        }
         
-        cell.loadVideo()
-        
-        print("로드 됨!!")
+        let post = viewModel.posts.value[indexPath.row]
+        cell.configure(with: post)
         return cell
     }
-    
-    
 }

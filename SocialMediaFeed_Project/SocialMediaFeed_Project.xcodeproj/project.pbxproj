@@ -26,6 +26,7 @@
 		1E1C0F8029BC8B7000FE5012 /* YouTubeSansRegular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1E1C0F7D29BC8B7000FE5012 /* YouTubeSansRegular.otf */; };
 		1E1C0F8129BC8B7000FE5012 /* YouTubeSansBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1E1C0F7E29BC8B7000FE5012 /* YouTubeSansBold.otf */; };
 		1E1C0F8229BC8B7000FE5012 /* YouTubeSansMedium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1E1C0F7F29BC8B7000FE5012 /* YouTubeSansMedium.otf */; };
+		1E1C0F8429BD5A3F00FE5012 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1C0F8329BD5A3F00FE5012 /* UIView+Extension.swift */; };
 		1ED0D50429B79D9600092ABD /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 1ED0D50329B79D9600092ABD /* .swiftlint.yml */; };
 		1EE298AC29B859F6000EC26C /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 1EE298AB29B859F6000EC26C /* .gitignore */; };
 		1EE298BE29B87086000EC26C /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE298BD29B87086000EC26C /* Content.swift */; };
@@ -62,6 +63,7 @@
 		1E1C0F7D29BC8B7000FE5012 /* YouTubeSansRegular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = YouTubeSansRegular.otf; sourceTree = "<group>"; };
 		1E1C0F7E29BC8B7000FE5012 /* YouTubeSansBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = YouTubeSansBold.otf; sourceTree = "<group>"; };
 		1E1C0F7F29BC8B7000FE5012 /* YouTubeSansMedium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = YouTubeSansMedium.otf; sourceTree = "<group>"; };
+		1E1C0F8329BD5A3F00FE5012 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		1ED0D50329B79D9600092ABD /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		1EE298AB29B859F6000EC26C /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		1EE298BD29B87086000EC26C /* Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 			isa = PBXGroup;
 			children = (
 				1E1C0F7329BC82A300FE5012 /* UIButton+Extension.swift */,
+				1E1C0F8329BD5A3F00FE5012 /* UIView+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -417,6 +420,7 @@
 				1E0602FC29B95064007BDE6D /* BaseCollectionViewCell.swift in Sources */,
 				1E12937F29B796D1005E9307 /* AppDelegate.swift in Sources */,
 				1EE298C429B8760F000EC26C /* Post.swift in Sources */,
+				1E1C0F8429BD5A3F00FE5012 /* UIView+Extension.swift in Sources */,
 				1E1C0F7929BC8A1500FE5012 /* Constants.swift in Sources */,
 				1EE298D629B8E737000EC26C /* FeedResponseDTO.swift in Sources */,
 				1E12938129B796D1005E9307 /* SceneDelegate.swift in Sources */,
