@@ -14,7 +14,7 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
     static let reuseIdentifier = "FeedVideoViewCell"
     
     var post: Post?
-    var content: Content?
+    var content: [Content]?
     
     var videoPlayer: AVPlayer?
     let playerLayer = AVPlayerLayer()
@@ -33,6 +33,8 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
     let descriptionTextView = UITextView()
     
     let videoContainer = UIView()
+    
+    var innerCollectionView: UICollectionView?
     
     // MARK: - Overridden Functions
     override func layoutSubviews() {
@@ -194,43 +196,53 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
 
 extension FeedVideoViewCell {
     
-    func configureVideoCell(with post: Post, content: Content) {
+    func configureVideoCell(with post: Post, content: [Content]) {
         self.post = post
         self.content = content
 
-        guard let videoURL = URL(string: content.contentURL) else { print("유효하지 않은 영상 URL!")
-            return
-        }
-        
-        print(videoURL)
+        if content.count == 1 {
+            let singleContent = content[0]
+            
+            guard let videoURL = URL(string: singleContent.contentURL) else { print("유효하지 않은 영상 URL!")
+                return
+            }
 
-        DispatchQueue.main.async { [weak self] in
-            self?.videoPlayer = AVPlayer(url: videoURL)
-        }
+            DispatchQueue.main.async { [weak self] in
+                self?.videoPlayer = AVPlayer(url: videoURL)
+            }
 
-        guard let influencerURL = URL(string: post.influencer.profileThumbnailUrl) else { print("유효하지 않은 인플루언서 이미지 URL!")
-            return
-        }
-        
-        // 이미지 URL에서 불러오는 작업은 메인 쓰레드에서 진행하지 않도록
-        DispatchQueue.global().async {
-            if let data = try? Data(contentsOf: influencerURL) {
-                if let image = UIImage(data: data) {
-                    DispatchQueue.main.async { [weak self] in
-                        self?.influencerName.text = post.influencer.displayName
-                        self?.influencerProfile.image = image
+            guard let influencerURL = URL(string: post.influencer.profileThumbnailUrl) else { print("유효하지 않은 인플루언서 이미지 URL!")
+                return
+            }
+            
+            // 이미지 URL에서 불러오는 작업은 메인 쓰레드에서 진행하지 않도록
+            DispatchQueue.global().async {
+                if let data = try? Data(contentsOf: influencerURL) {
+                    if let image = UIImage(data: data) {
+                        DispatchQueue.main.async { [weak self] in
+                            self?.influencerName.text = post.influencer.displayName
+                            self?.influencerProfile.image = image
+                        }
                     }
                 }
             }
-        }
 
-        DispatchQueue.main.async { [weak self] in
-            self?.descriptionTextView.text = post.description
-            self?.likeButton.setTitle(String(post.likeCount), for: .normal)
-            self?.likeButton.alignTextBelow()
-            self?.followButton.setTitle(String(post.influencer.followCount), for: .normal)
-            self?.followButton.alignTextBelow()
-            self?.configureUI()
+            DispatchQueue.main.async { [weak self] in
+                self?.descriptionTextView.text = post.description
+                self?.likeButton.setTitle(String(post.likeCount), for: .normal)
+                self?.likeButton.alignTextBelow()
+                self?.followButton.setTitle(String(post.influencer.followCount), for: .normal)
+                self?.followButton.alignTextBelow()
+                
+                // 영상이 play되게 다시 메서드 실행
+                self?.configureUI()
+            }
+        } else if content.count > 1 {
+            configureCollectionView()
         }
+        
     }
+    
 }
+
+

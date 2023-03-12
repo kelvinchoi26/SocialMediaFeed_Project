@@ -1,21 +1,23 @@
 //
-//  FeedImageViewCell.swift
+//  InnerVideoVIewCell.swift
 //  SocialMediaFeed_Project
 //
-//  Created by 최형민 on 2023/03/09.
+//  Created by 최형민 on 2023/03/12.
 //
 
 import UIKit
+import AVFoundation
 
-final class FeedImageViewCell: BaseCollectionViewCell {
+final class InnerVideoViewCell: BaseCollectionViewCell {
     
     // MARK: - Properties
-    static let reuseIdentifier = "FeedImageViewCell"
+    static let reuseIdentifier = "InnerVideoViewCell"
     
     var post: Post?
     var content: Content?
     
-    let contentImageView = UIImageView()
+    var videoPlayer: AVPlayer?
+    let playerLayer = AVPlayerLayer()
     
     let volumeButton = UIButton()
     
@@ -30,7 +32,7 @@ final class FeedImageViewCell: BaseCollectionViewCell {
     
     let descriptionTextView = UITextView()
     
-    let imageContainer = UIView()
+    let videoContainer = UIView()
     
     // MARK: - Overridden Functions
     override func layoutSubviews() {
@@ -54,9 +56,17 @@ final class FeedImageViewCell: BaseCollectionViewCell {
     
     // MARK: - Attributes
     override func configureUI() {
-        contentImageView.do {
-            $0.contentMode = .scaleAspectFill
-            $0.clipsToBounds = true
+        videoPlayer?.do {
+            $0.volume = 0
+            $0.play()
+        }
+        
+        playerLayer.do {
+            $0.player = videoPlayer
+            $0.frame = contentView.bounds
+            
+            // 영상 비율 지키면서 화면 채움
+            $0.videoGravity = .resizeAspectFill
         }
         
         volumeButton.do {
@@ -126,20 +136,22 @@ final class FeedImageViewCell: BaseCollectionViewCell {
             $0.shadowEffect()
         }
         
-        contentView.addSubview(contentImageView)
+        videoContainer.layer.addSublayer(playerLayer)
         contentView.clipsToBounds = true
         
-        [contentImageView, volumeButton, moreInfo, followButton, likeButton, descriptionTextView, influencerProfile, influencerName].forEach {
+        [videoContainer, volumeButton, moreInfo, followButton, likeButton, descriptionTextView, influencerProfile, influencerName].forEach {
             contentView.addSubview($0)
         }
         
-        // 이미지가 다른 components보다 뒤로 위치되게
-        contentView.sendSubviewToBack(contentImageView)
+        videoContainer.clipsToBounds = true
+        
+        // videoContainer UIView를 이용해 영상/이미지가 다른 components보다 뒤로 위치되게
+        contentView.sendSubviewToBack(videoContainer)
     }
     
     // MARK: - Constraints
     override func setConstraints() {
-        contentImageView.frame = contentView.bounds
+        videoContainer.frame = contentView.bounds
         
         volumeButton.snp.makeConstraints {
             $0.top.equalTo(self.safeAreaLayoutGuide).inset(30)
@@ -177,28 +189,24 @@ final class FeedImageViewCell: BaseCollectionViewCell {
             $0.bottom.equalTo(descriptionTextView.snp.top).offset(-5)
         }
     }
+    
 }
 
-extension FeedImageViewCell {
-    func configureImageCell(with post: Post, content: Content) {
+extension InnerVideoViewCell {
+    func configureVideoCell(with post: Post, content: Content) {
         self.post = post
         self.content = content
-        
-        guard let imageURL = URL(string: content.contentURL) else { print("유효하지 않은 이미지 URL!")
+
+        guard let videoURL = URL(string: content.contentURL) else { print("유효하지 않은 영상 URL!")
             return
         }
         
-        // 이미지 URL에서 불러오는 작업은 메인 쓰레드에서 진행하지 않도록
-        DispatchQueue.global().async {
-            if let data = try? Data(contentsOf: imageURL) {
-                if let image = UIImage(data: data) {
-                    DispatchQueue.main.async { [weak self] in
-                        self?.contentImageView.image = image
-                    }
-                }
-            }
+        print(videoURL)
+
+        DispatchQueue.main.async { [weak self] in
+            self?.videoPlayer = AVPlayer(url: videoURL)
         }
-        
+
         guard let influencerURL = URL(string: post.influencer.profileThumbnailUrl) else { print("유효하지 않은 인플루언서 이미지 URL!")
             return
         }
@@ -214,13 +222,14 @@ extension FeedImageViewCell {
                 }
             }
         }
-        
+
         DispatchQueue.main.async { [weak self] in
             self?.descriptionTextView.text = post.description
             self?.likeButton.setTitle(String(post.likeCount), for: .normal)
             self?.likeButton.alignTextBelow()
             self?.followButton.setTitle(String(post.influencer.followCount), for: .normal)
             self?.followButton.alignTextBelow()
+            self?.configureUI()
         }
     }
 }

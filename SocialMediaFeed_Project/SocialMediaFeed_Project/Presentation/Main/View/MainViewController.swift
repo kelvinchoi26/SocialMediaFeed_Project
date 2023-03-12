@@ -13,8 +13,6 @@ final class MainViewController: BaseViewController {
     // MARK: - Properties
     private var collectionView: UICollectionView?
     private let viewModel = MainViewModel()
-    private var mainCollectionView: UICollectionView!
-    private var subCollectionViews = [UICollectionView]()
     
     // MARK: - LifeCycles
     override func viewDidLoad() {
@@ -38,7 +36,7 @@ final class MainViewController: BaseViewController {
 }
 
 extension MainViewController {
-    func configureCollectionView() {
+    private func configureCollectionView() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - view.safeAreaInsets.top - view.safeAreaInsets.bottom)
@@ -72,21 +70,19 @@ extension MainViewController: UICollectionViewDataSource {
         
         // 영상인 경우 FeedVideoViewCell, 이미지인 경우 FeedImageViewCell
         if post.contents[0].type == "image" {
-            print("image")
             collectionView.register(FeedImageViewCell.self, forCellWithReuseIdentifier: FeedImageViewCell.reuseIdentifier)
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedImageViewCell.reuseIdentifier, for: indexPath) as? FeedImageViewCell else {
                 return UICollectionViewCell()
             }
-            cell.configureImageCell(with: post, content: post.contents[0])
+            cell.configureImageCell(with: post, content: post.contents)
             
             return cell
         } else {
-            print("video!")
             collectionView.register(FeedVideoViewCell.self, forCellWithReuseIdentifier: FeedVideoViewCell.reuseIdentifier)
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedVideoViewCell.reuseIdentifier, for: indexPath) as? FeedVideoViewCell else {
                 return UICollectionViewCell()
             }
-            cell.configureVideoCell(with: post, content: post.contents[0])
+            cell.configureVideoCell(with: post, content: post.contents)
             
             return cell
         }
