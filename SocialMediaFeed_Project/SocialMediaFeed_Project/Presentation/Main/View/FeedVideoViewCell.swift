@@ -229,9 +229,9 @@ extension FeedVideoViewCell {
 
             DispatchQueue.main.async { [weak self] in
                 self?.descriptionTextView.text = post.description
-                self?.likeButton.setTitle(String(post.likeCount), for: .normal)
+                self?.likeButton.setTitle(String(post.likeCount.toThousands()), for: .normal)
                 self?.likeButton.alignTextBelow()
-                self?.followButton.setTitle(String(post.influencer.followCount), for: .normal)
+                self?.followButton.setTitle(String(post.influencer.followCount.toThousands()), for: .normal)
                 self?.followButton.alignTextBelow()
                 
                 // 영상이 play되게 다시 메서드 실행

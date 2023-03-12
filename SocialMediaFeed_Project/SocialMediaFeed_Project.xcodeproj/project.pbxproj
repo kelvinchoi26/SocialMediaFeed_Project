@@ -31,6 +31,7 @@
 		1E1C0F8829BDE26D00FE5012 /* InnerImageViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1C0F8729BDE26D00FE5012 /* InnerImageViewCell.swift */; };
 		1E1C0F8A29BDE57800FE5012 /* FeedVideoViewCell+CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1C0F8929BDE57800FE5012 /* FeedVideoViewCell+CollectionView.swift */; };
 		1E1C0F8C29BDEC3100FE5012 /* FeedImageViewCell+CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1C0F8B29BDEC3100FE5012 /* FeedImageViewCell+CollectionView.swift */; };
+		1E1C0F8E29BE32C500FE5012 /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1C0F8D29BE32C500FE5012 /* Int+Extension.swift */; };
 		1ED0D50429B79D9600092ABD /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 1ED0D50329B79D9600092ABD /* .swiftlint.yml */; };
 		1EE298AC29B859F6000EC26C /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 1EE298AB29B859F6000EC26C /* .gitignore */; };
 		1EE298BE29B87086000EC26C /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE298BD29B87086000EC26C /* Content.swift */; };
@@ -72,6 +73,7 @@
 		1E1C0F8729BDE26D00FE5012 /* InnerImageViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InnerImageViewCell.swift; sourceTree = "<group>"; };
 		1E1C0F8929BDE57800FE5012 /* FeedVideoViewCell+CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeedVideoViewCell+CollectionView.swift"; sourceTree = "<group>"; };
 		1E1C0F8B29BDEC3100FE5012 /* FeedImageViewCell+CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeedImageViewCell+CollectionView.swift"; sourceTree = "<group>"; };
+		1E1C0F8D29BE32C500FE5012 /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		1ED0D50329B79D9600092ABD /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		1EE298AB29B859F6000EC26C /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		1EE298BD29B87086000EC26C /* Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 			children = (
 				1E1C0F7329BC82A300FE5012 /* UIButton+Extension.swift */,
 				1E1C0F8329BD5A3F00FE5012 /* UIView+Extension.swift */,
+				1E1C0F8D29BE32C500FE5012 /* Int+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -423,6 +426,7 @@
 				1E0602F729B93F4F007BDE6D /* FeedImageViewCell.swift in Sources */,
 				1EE298DC29B8F56F000EC26C /* BaseViewController.swift in Sources */,
 				1E1C0F7429BC82A300FE5012 /* UIButton+Extension.swift in Sources */,
+				1E1C0F8E29BE32C500FE5012 /* Int+Extension.swift in Sources */,
 				1EE298E729B8F65F000EC26C /* BaseView.swift in Sources */,
 				1EE298C629B87CE8000EC26C /* NetworkError.swift in Sources */,
 				1EE298E929B8F685000EC26C /* FeedVideoViewCell.swift in Sources */,
