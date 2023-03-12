@@ -17,6 +17,7 @@ final class MainViewModel {
     
     // BehaviorRelay - 항상 현재 값을 지니고 있음
     var posts = BehaviorRelay<[Post]>(value: [])
+    var isMuted = BehaviorRelay<Bool>(value: false)
     
     // MARK: - Methods
     func fetchContents(page: Int) {
@@ -33,6 +34,10 @@ final class MainViewModel {
                 print("Error fetching Content: \(error.localizedDescription)")
             }
         }
+    }
+    
+    func toggleMute() {
+        isMuted.accept(!isMuted.value)
     }
     
 }

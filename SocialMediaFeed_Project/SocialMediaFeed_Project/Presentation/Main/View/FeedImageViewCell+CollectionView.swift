@@ -19,6 +19,7 @@ extension FeedImageViewCell: UICollectionViewDataSource {
         }
         
         guard let newContent = post?.contents[indexPath.row] else {
+            print(indexPath.row)
             print("collectionView content 불러오기 실패")
             return UICollectionViewCell()
         }
