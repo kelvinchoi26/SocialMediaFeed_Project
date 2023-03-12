@@ -57,9 +57,6 @@ extension MainViewController {
         
         // 첫번째 cell의 navigation bar 위치에 발생하는 공간 제거
         collectionView?.contentInsetAdjustmentBehavior = .never
-        
-        collectionView?.register(FeedImageViewCell.self, forCellWithReuseIdentifier: FeedImageViewCell.reuseIdentifier)
-        collectionView?.register(FeedVideoViewCell.self, forCellWithReuseIdentifier: FeedVideoViewCell.reuseIdentifier)
     }
 }
 
@@ -72,20 +69,22 @@ extension MainViewController: UICollectionViewDataSource {
         let post = viewModel.posts.value[indexPath.row]
         
         // 영상인 경우 FeedVideoViewCell, 이미지인 경우 FeedImageViewCell
-        if post.contents[0].type == "video" {
-            print("video!")
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedVideoViewCell.reuseIdentifier, for: indexPath) as? FeedVideoViewCell else {
-                return UICollectionViewCell()
-            }
-            cell.configureVideoCell(with: post, content: post.contents[0])
-            
-            return cell
-        } else {
+        if post.contents[0].type == "image" {
             print("image")
+            collectionView.register(FeedImageViewCell.self, forCellWithReuseIdentifier: FeedImageViewCell.reuseIdentifier)
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedImageViewCell.reuseIdentifier, for: indexPath) as? FeedImageViewCell else {
                 return UICollectionViewCell()
             }
             cell.configureImageCell(with: post, content: post.contents[0])
+            
+            return cell
+        } else {
+            print("video!")
+            collectionView.register(FeedVideoViewCell.self, forCellWithReuseIdentifier: FeedVideoViewCell.reuseIdentifier)
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedVideoViewCell.reuseIdentifier, for: indexPath) as? FeedVideoViewCell else {
+                return UICollectionViewCell()
+            }
+            cell.configureVideoCell(with: post, content: post.contents[0])
             
             return cell
         }

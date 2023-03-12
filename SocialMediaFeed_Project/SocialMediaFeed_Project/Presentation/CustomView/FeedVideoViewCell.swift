@@ -201,6 +201,8 @@ extension FeedVideoViewCell {
         guard let videoURL = URL(string: content.contentURL) else { print("유효하지 않은 영상 URL!")
             return
         }
+        
+        print(videoURL)
 
         DispatchQueue.main.async { [weak self] in
             self?.videoPlayer = AVPlayer(url: videoURL)
@@ -228,6 +230,7 @@ extension FeedVideoViewCell {
             self?.likeButton.alignTextBelow()
             self?.followButton.setTitle(String(post.influencer.followCount), for: .normal)
             self?.followButton.alignTextBelow()
+            self?.configureUI()
         }
     }
 }

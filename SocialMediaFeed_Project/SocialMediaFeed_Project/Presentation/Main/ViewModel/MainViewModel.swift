@@ -23,6 +23,7 @@ final class MainViewModel {
         service.fetchPosts(page: page) { result in
             switch result {
             case .success(let data):
+                print(data)
                 let posts = data.returnPosts()
                 
                 // Subscribers(구독자)한테 업데이트된 posts 전송
