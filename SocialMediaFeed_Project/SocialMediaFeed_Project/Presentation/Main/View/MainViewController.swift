@@ -25,7 +25,7 @@ final class MainViewController: BaseViewController {
         configureCollectionView()
         collectionView?.delegate = self
         
-        configureErrorView()
+        
     }
     
     // MARK: - Bind
@@ -39,7 +39,7 @@ final class MainViewController: BaseViewController {
                     
                 case .failure(let error):
                     print("Error fetching Content: \(error.localizedDescription)")
-                    print("✅")
+                    self?.configureErrorView()
                     self?.showErrorView()
                 }
             })
