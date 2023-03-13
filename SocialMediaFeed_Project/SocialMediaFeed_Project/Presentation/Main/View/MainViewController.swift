@@ -7,18 +7,22 @@
 
 import UIKit
 import RxSwift
+import MediaPlayer
 
 final class MainViewController: BaseViewController {
     
     // MARK: - Properties
     private var collectionView: UICollectionView?
     private let viewModel = MainViewModel()
+    private var volumeView: MPVolumeView!
+    private var volumeSlider: UISlider?
     
     // MARK: - LifeCycles
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureCollectionView()
+        setupVolumeButtonTap()
     }
     
     // MARK: - Bind
@@ -30,6 +34,14 @@ final class MainViewController: BaseViewController {
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] _ in
                 self?.collectionView?.reloadData()
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.isMuted
+            .asObservable()
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] isMuted in
+                self?.volumeSlider?.value = isMuted ? 0 : 1
             })
             .disposed(by: disposeBag)
     }
@@ -58,6 +70,26 @@ extension MainViewController {
         
         collectionView?.showsVerticalScrollIndicator = false
     }
+    
+    private func setupVolumeButtonTap() {
+        let tapGesture = UITapGestureRecognizer()
+        view.addGestureRecognizer(tapGesture)
+        
+        tapGesture.rx.event
+            .subscribe(onNext: { [weak self] _ in
+                // Check if the system volume is currently on or muted
+                let volumeView = MPVolumeView(frame: .zero)
+                if let volumeSlider = volumeView.subviews.first(where: { $0 is UISlider }) as? UISlider {
+                    let isMuted = volumeSlider.value == 0.0
+                    // Toggle the system volume
+                    volumeSlider.setValue(isMuted ? 1.0 : 0.0, animated: false)
+                    // Update the view model's isMuted property
+                    self?.viewModel.isMuted.accept(!isMuted)
+                }
+            })
+            .disposed(by: disposeBag)
+    }
+    
 }
 
 extension MainViewController: UICollectionViewDataSource {

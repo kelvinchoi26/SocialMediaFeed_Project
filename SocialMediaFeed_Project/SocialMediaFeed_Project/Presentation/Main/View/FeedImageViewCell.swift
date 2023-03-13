@@ -43,6 +43,19 @@ final class FeedImageViewCell: BaseCollectionViewCell {
         influencerProfile.clipsToBounds = true
     }
     
+    override func bind() {
+        super.bind()
+        
+        viewModel.isMuted
+            .asObservable()
+            .subscribe(onNext: { [weak self] isMuted in
+                // Update mute UI in the view controller
+                // For example, update the mute button image
+                self?.volumeButton.setImage(isMuted ? UIImage(named: "speaker.wave.2.fill") : UIImage(named: "speaker.slash.fill"), for: .normal)
+            })
+            .disposed(by: disposeBag)
+    }
+    
     // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -230,6 +243,5 @@ extension FeedImageViewCell {
         } else if content.count > 1 {
             configureCollectionView()
         }
-        
     }
 }

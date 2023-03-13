@@ -8,6 +8,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import MediaPlayer
 
 final class MainViewModel {
     
@@ -37,7 +38,20 @@ final class MainViewModel {
     }
     
     func toggleMute() {
+        // MPVolumeView 가져오기
+        let volumeView = MPVolumeView(frame: .zero)
+        
+        // 볼륨 조절 슬라이더 찾기
+        if let volumeSlider = volumeView.subviews.first(where: { $0 is UISlider }) as? UISlider {
+            // 볼륨 끄기
+            if isMuted.value {
+                volumeSlider.setValue(0, animated: false)
+            } else { // 볼륨 켜기
+                volumeSlider.setValue(1, animated: false)
+            }
+        }
+        
+        // 현재 음소거 여부 업데이트
         isMuted.accept(!isMuted.value)
     }
-    
 }

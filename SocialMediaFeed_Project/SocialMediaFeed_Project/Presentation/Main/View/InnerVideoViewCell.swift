@@ -7,6 +7,7 @@
 
 import UIKit
 import AVFoundation
+import RxSwift
 
 final class InnerVideoViewCell: BaseCollectionViewCell {
     
@@ -43,11 +44,36 @@ final class InnerVideoViewCell: BaseCollectionViewCell {
         influencerProfile.clipsToBounds = true
     }
     
+    override func bind() {
+        super.bind()
+        
+        // 볼륨 버튼 탭하는 경우 디바이스 음소거 적용
+        volumeButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                self?.viewModel.toggleMute()
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.isMuted
+            .asObservable()
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] isMuted in
+                print("❤️❤️❤️❤️❤️")
+                self?.videoPlayer?.volume = isMuted ? 0.0 : 1.0
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    // 영상 탭하는 경우 디바이스 음소거 적용
+    override func setupVolumeButtonTap() {
+        super.setupVolumeButtonTap()
+    }
+    
     // MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        configureUI()
+        setupVolumeButtonTap()
     }
     
     required init?(coder: NSCoder) {
@@ -57,7 +83,7 @@ final class InnerVideoViewCell: BaseCollectionViewCell {
     // MARK: - Attributes
     override func configureUI() {
         videoPlayer?.do {
-            $0.volume = 0
+            $0.volume = 1.0
             $0.play()
         }
         
