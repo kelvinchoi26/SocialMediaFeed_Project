@@ -159,6 +159,7 @@ extension MainViewController: UIScrollViewDelegate {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        // 페이지네이션
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
         
@@ -177,5 +178,19 @@ extension MainViewController: UIScrollViewDelegate {
                 })
                 .disposed(by: disposeBag)
         }
+        
+        // 스크롤 시 알파 값 변경
+        let visibleIndexPaths = collectionView?.indexPathsForVisibleItems ?? []
+        let visibleCells = visibleIndexPaths.compactMap { collectionView?.cellForItem(at: $0) }
+
+        let middleY = collectionView?.frame.midY ?? 0
+
+        for cell in visibleCells {
+            let cellMiddleY = cell.frame.midY - scrollView.contentOffset.y
+            let distance = abs(cellMiddleY - middleY)
+            let alpha = min(1, distance/(collectionView?.frame.height ?? 1))
+            cell.alpha = 1 - alpha
+        }
     }
+
 }
