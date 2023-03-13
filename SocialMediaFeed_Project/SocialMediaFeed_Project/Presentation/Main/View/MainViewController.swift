@@ -24,6 +24,8 @@ final class MainViewController: BaseViewController {
         
         configureCollectionView()
         collectionView?.delegate = self
+        
+        configureErrorView()
     }
     
     // MARK: - Bind
@@ -37,6 +39,7 @@ final class MainViewController: BaseViewController {
                     
                 case .failure(let error):
                     print("Error fetching Content: \(error.localizedDescription)")
+                    print("✅")
                     self?.showErrorView()
                 }
             })
@@ -54,16 +57,25 @@ final class MainViewController: BaseViewController {
     func configureErrorView() {
         retryButton.do {
             $0.setTitle("다시 시도하기", for: .normal)
+            $0.titleLabel?.font = Constants.Font.regular
             $0.addTarget(self, action: #selector(retryButtonTapped), for: .touchUpInside)
         }
         
         errorView.do {
             $0.backgroundColor = .black
-            $0.addSubview(retryButton)
-            
-            retryButton.snp.makeConstraints {
-                $0.center.equalToSuperview()
-            }
+        }
+        
+        view.addSubview(errorView)
+        
+        errorView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        errorView.addSubview(retryButton)
+        
+        retryButton.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalToSuperview()
         }
     }
 }
@@ -93,8 +105,8 @@ extension MainViewController {
     }
     
     private func showErrorView() {
-        errorView.frame = view.bounds
         view.addSubview(errorView)
+        view.bringSubviewToFront(errorView)
     }
     
     @objc private func retryButtonTapped() {
