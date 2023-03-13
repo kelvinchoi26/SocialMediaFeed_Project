@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension FeedVideoViewCell: UICollectionViewDataSource {
+extension FeedVideoViewCell: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return post?.contents.count ?? 1
     }
@@ -18,28 +18,55 @@ extension FeedVideoViewCell: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        guard let newContent = post?.contents[indexPath.row] else {
+        // indexPath가 유효한지 체크
+        guard indexPath.row < newPost.contents.count else {
             print("collectionView content 불러오기 실패")
             return UICollectionViewCell()
         }
         
+        let newContent = newPost.contents[indexPath.row]
+        
         // 타입에 따라서 다른 cell register
-        if newContent.type == "image" {
+        if newContent.type == ContentType.image.rawValue {
             collectionView.register(InnerImageViewCell.self, forCellWithReuseIdentifier: InnerImageViewCell.reuseIdentifier)
             
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: InnerImageViewCell.reuseIdentifier, for: indexPath) as! InnerImageViewCell
-            cell.configureImageCell(with: newPost, content: newContent)
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: InnerImageViewCell.reuseIdentifier, for: indexPath) as? InnerImageViewCell else {
+                return UICollectionViewCell()
+            }
+            
+            cell.configureImageCell(with: newPost, content: newContent, indexPath: indexPath)
             
             return cell
         } else {
             collectionView.register(InnerVideoViewCell.self, forCellWithReuseIdentifier: InnerVideoViewCell.reuseIdentifier)
             
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: InnerVideoViewCell.reuseIdentifier, for: indexPath) as! InnerVideoViewCell
-            cell.configureVideoCell(with: newPost, content: newContent)
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: InnerVideoViewCell.reuseIdentifier, for: indexPath) as? InnerVideoViewCell else {
+                return UICollectionViewCell()
+            }
+ 
+            cell.configureVideoCell(with: newPost, content: newContent, indexPath: indexPath)
             
             return cell
         }
         
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if collectionView == outerCollectionView {
+            // 실행하려는 cell과 현재 보여지는 cell이 동일할 때만 실행
+            if let currentIndexPath = try? viewModel.currentCellIndexPath.value(), currentIndexPath == indexPath {
+                videoPlayer?.play()
+            }
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if collectionView == outerCollectionView {
+            // 실행하려는 cell과 현재 보여지는 cell이 동일할 때만 일시 중지
+            if let currentIndexPath = try? viewModel.currentCellIndexPath.value(), currentIndexPath == indexPath {
+                videoPlayer?.pause()
+            }
+        }
     }
     
     func configureCollectionView() {
@@ -63,5 +90,27 @@ extension FeedVideoViewCell: UICollectionViewDataSource {
         innerCollectionView?.contentInsetAdjustmentBehavior = .never
         
         innerCollectionView?.reloadData()
+    }
+}
+
+extension FeedVideoViewCell: UIScrollViewDelegate {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        // innerCollectionView에서만 동작하도록 설정
+        guard scrollView == innerCollectionView else {
+            return
+        }
+        
+        let visibleIndexPaths = innerCollectionView?.indexPathsForVisibleItems
+        
+        print("inner에서 어떤게 스크롤 됐을까??❤️")
+        print(visibleIndexPaths)
+        
+        // scroll이 멈출 때 마다 뷰모델에 현재의 indexPath 값을 보냄
+        if let indexPath = visibleIndexPaths?.first {
+            print(indexPath)
+            
+            viewModel.currentCellIndexPath.onNext(indexPath)
+            outerCollectionView?.scrollToItem(at: IndexPath(item: indexPath.row, section: indexPath.section), at: .centeredVertically, animated: false)
+        }
     }
 }

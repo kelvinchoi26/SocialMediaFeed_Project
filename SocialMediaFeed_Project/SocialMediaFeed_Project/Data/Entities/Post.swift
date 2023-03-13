@@ -14,14 +14,6 @@ struct Post: Codable {
     let likeCount: Int
     let description: String
     
-    init(id: String, influencer: Influencer, contents: [Content], likeCount: Int, description: String) {
-        self.id = id
-        self.influencer = influencer
-        self.contents = contents
-        self.likeCount = likeCount
-        self.description = description
-    }
-    
     enum CodingKeys: String, CodingKey {
         case id, influencer, contents, description
         case likeCount = "like_count"

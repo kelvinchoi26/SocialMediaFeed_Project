@@ -7,6 +7,8 @@
 
 import Foundation
 import Alamofire
+import RxSwift
+import RxCocoa
 
 final class FeedAPIService {
     
@@ -14,10 +16,10 @@ final class FeedAPIService {
     static let shared = FeedAPIService()
     
     private init() { }
-    
+        
     func fetchPosts(page: Int, completion: @escaping (Result<FeedResponseDTO, NetworkError>) -> Void) {
         let url = URLPath.baseURL + String(page)
-        
+
         AF.request(url, method: .get)
             .validate()
             .responseDecodable(of: FeedResponseDTO.self) { response in

@@ -16,6 +16,7 @@ final class InnerVideoViewCell: BaseCollectionViewCell {
     
     var post: Post?
     var content: Content?
+    var indexPath: IndexPath?
     
     var videoPlayer: AVPlayer?
     let playerLayer = AVPlayerLayer()
@@ -44,6 +45,13 @@ final class InnerVideoViewCell: BaseCollectionViewCell {
         influencerProfile.clipsToBounds = true
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        self.videoPlayer?.play()
+        self.playerLayer.removeFromSuperlayer()
+    }
+    
     override func bind() {
         super.bind()
         
@@ -62,6 +70,18 @@ final class InnerVideoViewCell: BaseCollectionViewCell {
                 self?.videoPlayer?.volume = isMuted ? 0.0 : 1.0
             })
             .disposed(by: disposeBag)
+        
+        viewModel.currentCellIndexPath
+            .subscribe(onNext: { [weak self] indexPath in
+                guard let self = self else { return }
+                
+                print(indexPath)
+                
+                if indexPath != self.indexPath {
+                    self.videoPlayer?.pause()
+                }
+                
+            }).disposed(by: disposeBag)
     }
     
     // 영상 탭하는 경우 디바이스 음소거 적용
@@ -74,6 +94,7 @@ final class InnerVideoViewCell: BaseCollectionViewCell {
         super.init(frame: frame)
         
         setupVolumeButtonTap()
+        self.videoPlayer?.play()
     }
     
     required init?(coder: NSCoder) {
@@ -110,7 +131,7 @@ final class InnerVideoViewCell: BaseCollectionViewCell {
             $0.tintColor = .white
             
             $0.setTitleColor(.white, for: .normal)
-            $0.titleLabel?.font = Constants.Font.MediumFont
+            $0.titleLabel?.font = Constants.Font.medium
             
             // Add shadow effect
             $0.shadowEffect()
@@ -122,7 +143,7 @@ final class InnerVideoViewCell: BaseCollectionViewCell {
             $0.tintColor = .white
             
             $0.setTitleColor(.white, for: .normal)
-            $0.titleLabel?.font = Constants.Font.MediumFont
+            $0.titleLabel?.font = Constants.Font.medium
             
             // Add shadow effect
             $0.shadowEffect()
@@ -146,7 +167,7 @@ final class InnerVideoViewCell: BaseCollectionViewCell {
         }
         
         influencerName.do {
-            $0.font = Constants.Font.MediumFont
+            $0.font = Constants.Font.medium
             $0.textColor = .white
             
             // Add shadow effect
@@ -154,7 +175,7 @@ final class InnerVideoViewCell: BaseCollectionViewCell {
         }
         
         descriptionTextView.do {
-            $0.font = Constants.Font.RegularFont
+            $0.font = Constants.Font.regular
             $0.textColor = .white
             $0.backgroundColor = .clear
             
@@ -219,9 +240,10 @@ final class InnerVideoViewCell: BaseCollectionViewCell {
 }
 
 extension InnerVideoViewCell {
-    func configureVideoCell(with post: Post, content: Content) {
+    func configureVideoCell(with post: Post, content: Content, indexPath: IndexPath) {
         self.post = post
         self.content = content
+        self.indexPath = indexPath
 
         guard let videoURL = URL(string: content.contentURL) else { print("유효하지 않은 영상 URL!")
             return

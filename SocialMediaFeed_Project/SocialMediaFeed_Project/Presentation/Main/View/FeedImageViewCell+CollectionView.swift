@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension FeedImageViewCell: UICollectionViewDataSource {
+extension FeedImageViewCell: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return post?.contents.count ?? 1
     }
@@ -18,25 +18,33 @@ extension FeedImageViewCell: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        guard let newContent = post?.contents[indexPath.row] else {
-            print(indexPath.row)
+        // indexPath가 유효한지 체크
+        guard indexPath.row < newPost.contents.count else {
             print("collectionView content 불러오기 실패")
             return UICollectionViewCell()
         }
         
+        let newContent = newPost.contents[indexPath.row]
+        
         // 타입에 따라서 다른 cell register
-        if newContent.type == "image" {
+        if newContent.type == ContentType.image.rawValue {
             collectionView.register(InnerImageViewCell.self, forCellWithReuseIdentifier: InnerImageViewCell.reuseIdentifier)
             
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: InnerImageViewCell.reuseIdentifier, for: indexPath) as! InnerImageViewCell
-            cell.configureImageCell(with: newPost, content: newContent)
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: InnerImageViewCell.reuseIdentifier, for: indexPath) as? InnerImageViewCell else {
+                return UICollectionViewCell()
+            }
+            
+            cell.configureImageCell(with: newPost, content: newContent, indexPath: indexPath)
             
             return cell
         } else {
             collectionView.register(InnerVideoViewCell.self, forCellWithReuseIdentifier: InnerVideoViewCell.reuseIdentifier)
             
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: InnerVideoViewCell.reuseIdentifier, for: indexPath) as! InnerVideoViewCell
-            cell.configureVideoCell(with: newPost, content: newContent)
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: InnerVideoViewCell.reuseIdentifier, for: indexPath) as? InnerVideoViewCell else {
+                return UICollectionViewCell()
+            }
+
+            cell.configureVideoCell(with: newPost, content: newContent, indexPath: indexPath)
             
             return cell
         }
@@ -63,5 +71,20 @@ extension FeedImageViewCell: UICollectionViewDataSource {
         innerCollectionView?.contentInsetAdjustmentBehavior = .never
         
         innerCollectionView?.reloadData()
+    }
+}
+
+extension FeedImageViewCell: UIScrollViewDelegate {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let visibleIndexPaths = innerCollectionView?.indexPathsForVisibleItems
+        
+        print("어떤게 스크롤 됐을까??❤️")
+        print(visibleIndexPaths)
+        
+        // scroll이 멈출 때 마다 뷰모델에 현재의 indexPath 값을 보냄
+        if let indexPath = visibleIndexPaths?.first {
+            print(indexPath)
+            viewModel.currentCellIndexPath.onNext(indexPath)
+        }
     }
 }

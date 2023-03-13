@@ -50,5 +50,4 @@ class BaseCollectionViewCell: UICollectionViewCell {
             })
             .disposed(by: disposeBag)
     }
-    
 }

@@ -16,6 +16,7 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
     
     var post: Post?
     var content: [Content]?
+    var indexPath: IndexPath?
     
     var videoPlayer: AVPlayer?
     let playerLayer = AVPlayerLayer()
@@ -35,6 +36,8 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
     
     let videoContainer = UIView()
     
+    // FeedVideoCell이 속한 수직 스크롤 콜렉션뷰를 참조
+    var outerCollectionView: UICollectionView?
     var innerCollectionView: UICollectionView?
     
     // MARK: - Overridden Functions
@@ -44,6 +47,12 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
         // 이미지가 설정된 이후에 cornerRadius 설정
         influencerProfile.layer.cornerRadius = influencerProfile.frame.width / 2
         influencerProfile.clipsToBounds = true
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        self.videoPlayer?.play()
     }
     
     override func bind() {
@@ -62,9 +71,20 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
             .subscribe(onNext: { [weak self] isMuted in
                 print("❤️❤️❤️❤️❤️")
                 self?.videoPlayer?.volume = isMuted ? 0.0 : 1.0
-                
             })
             .disposed(by: disposeBag)
+        
+        viewModel.currentCellIndexPath
+            .subscribe(onNext: { [weak self] indexPath in
+                guard let self = self else { return }
+                
+                print(indexPath)
+                
+                if indexPath != self.indexPath {
+                    self.videoPlayer?.pause()
+                }
+                
+            }).disposed(by: disposeBag)
     }
     
     // 영상 탭하는 경우 디바이스 음소거 적용
@@ -77,6 +97,8 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
         super.init(frame: frame)
         
         setupVolumeButtonTap()
+        innerCollectionView?.delegate = self
+        innerCollectionView?.dataSource = self
     }
     
     required init?(coder: NSCoder) {
@@ -113,7 +135,7 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
             $0.tintColor = .white
             
             $0.setTitleColor(.white, for: .normal)
-            $0.titleLabel?.font = Constants.Font.MediumFont
+            $0.titleLabel?.font = Constants.Font.medium
             
             // Add shadow effect
             $0.shadowEffect()
@@ -125,7 +147,7 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
             $0.tintColor = .white
             
             $0.setTitleColor(.white, for: .normal)
-            $0.titleLabel?.font = Constants.Font.MediumFont
+            $0.titleLabel?.font = Constants.Font.medium
             
             // Add shadow effect
             $0.shadowEffect()
@@ -149,7 +171,7 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
         }
         
         influencerName.do {
-            $0.font = Constants.Font.MediumFont
+            $0.font = Constants.Font.medium
             $0.textColor = .white
             
             // Add shadow effect
@@ -157,7 +179,7 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
         }
         
         descriptionTextView.do {
-            $0.font = Constants.Font.RegularFont
+            $0.font = Constants.Font.regular
             $0.textColor = .white
             $0.backgroundColor = .clear
             
@@ -186,6 +208,7 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
             $0.top.equalTo(self.safeAreaLayoutGuide).inset(30)
             $0.trailing.equalTo(self.safeAreaLayoutGuide).inset(15)
         }
+        
         moreInfo.snp.makeConstraints {
             $0.trailing.equalTo(self.safeAreaLayoutGuide).inset(15)
             $0.bottom.equalTo(self.safeAreaLayoutGuide).inset(100)
@@ -223,9 +246,10 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
 
 extension FeedVideoViewCell {
     
-    func configureVideoCell(with post: Post, content: [Content]) {
+    func configureVideoCell(with post: Post, content: [Content], indexPath: IndexPath) {
         self.post = post
         self.content = content
+        self.indexPath = indexPath
 
         if content.count == 1 {
             let singleContent = content[0]
@@ -269,5 +293,3 @@ extension FeedVideoViewCell {
         }
     }
 }
-
-

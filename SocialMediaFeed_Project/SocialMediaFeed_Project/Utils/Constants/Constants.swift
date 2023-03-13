@@ -9,7 +9,7 @@ import UIKit
 
 enum Constants {
     enum Font {
-        static let RegularFont = UIFont(name: "YouTubeSansRegular", size: 14)
-        static let MediumFont = UIFont(name: "YouTubeSansMedium", size: 12)
+        static let regular = UIFont(name: "YouTubeSansRegular", size: 14)
+        static let medium = UIFont(name: "YouTubeSansMedium", size: 12)
     }
 }

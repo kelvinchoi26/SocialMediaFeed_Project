@@ -7,27 +7,42 @@
 
 import UIKit
 import RxSwift
-import MediaPlayer
 
 final class MainViewController: BaseViewController {
     
     // MARK: - Properties
     private var collectionView: UICollectionView?
     private let viewModel = MainViewModel()
-    private var volumeView: MPVolumeView!
     private var volumeSlider: UISlider?
+    
+    private let errorView = UIView()
+    private let retryButton = UIButton()
     
     // MARK: - LifeCycles
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureCollectionView()
-        setupVolumeButtonTap()
+        collectionView?.delegate = self
     }
     
     // MARK: - Bind
     override func bind() {
         viewModel.fetchContents(page: 0)
+            .subscribe(onNext: { [weak self] result in
+                switch result {
+                case .success(let posts):
+                    self?.viewModel.posts.accept(posts)
+                    self?.collectionView?.reloadData()
+                    
+                case .failure(let error):
+                    print("Error fetching Content: \(error.localizedDescription)")
+                    self?.showErrorView()
+                }
+            }, onError: { [weak self] _ in
+                self?.showErrorView()
+            })
+            .disposed(by: disposeBag)
         
         viewModel.posts
             .asObservable()
@@ -36,14 +51,22 @@ final class MainViewController: BaseViewController {
                 self?.collectionView?.reloadData()
             })
             .disposed(by: disposeBag)
+    }
+    
+    func configureErrorView() {
+        retryButton.do {
+            $0.setTitle("다시 시도하기", for: .normal)
+            $0.addTarget(self, action: #selector(retryButtonTapped), for: .touchUpInside)
+        }
         
-        viewModel.isMuted
-            .asObservable()
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] isMuted in
-                self?.volumeSlider?.value = isMuted ? 0 : 1
-            })
-            .disposed(by: disposeBag)
+        errorView.do {
+            $0.backgroundColor = .black
+            $0.addSubview(retryButton)
+            
+            retryButton.snp.makeConstraints {
+                $0.center.equalToSuperview()
+            }
+        }
     }
 }
 
@@ -71,42 +94,43 @@ extension MainViewController {
         collectionView?.showsVerticalScrollIndicator = false
     }
     
-    private func setupVolumeButtonTap() {
-        let tapGesture = UITapGestureRecognizer()
-        view.addGestureRecognizer(tapGesture)
-        
-        tapGesture.rx.event
-            .subscribe(onNext: { [weak self] _ in
-                // Check if the system volume is currently on or muted
-                let volumeView = MPVolumeView(frame: .zero)
-                if let volumeSlider = volumeView.subviews.first(where: { $0 is UISlider }) as? UISlider {
-                    let isMuted = volumeSlider.value == 0.0
-                    // Toggle the system volume
-                    volumeSlider.setValue(isMuted ? 1.0 : 0.0, animated: false)
-                    // Update the view model's isMuted property
-                    self?.viewModel.isMuted.accept(!isMuted)
-                }
-            })
-            .disposed(by: disposeBag)
+    private func showErrorView() {
+        errorView.frame = view.bounds
+        view.addSubview(errorView)
     }
     
+    @objc private func retryButtonTapped() {
+        errorView.removeFromSuperview()
+        
+        bind()
+    }
+
 }
 
-extension MainViewController: UICollectionViewDataSource {
+extension MainViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.posts.value.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard indexPath.row < viewModel.posts.value.count else {
+            return UICollectionViewCell()
+        }
+        
         let post = viewModel.posts.value[indexPath.row]
         
+        guard let firstContent = post.contents.first else {
+            return UICollectionViewCell()
+        }
+        
         // 영상인 경우 FeedVideoViewCell, 이미지인 경우 FeedImageViewCell
-        if post.contents[0].type == "image" {
+        if firstContent.type == ContentType.image.rawValue {
             collectionView.register(FeedImageViewCell.self, forCellWithReuseIdentifier: FeedImageViewCell.reuseIdentifier)
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedImageViewCell.reuseIdentifier, for: indexPath) as? FeedImageViewCell else {
                 return UICollectionViewCell()
             }
-            cell.configureImageCell(with: post, content: post.contents)
+            cell.configureImageCell(with: post, content: post.contents, indexPath: indexPath)
+            cell.outerCollectionView = collectionView
             
             return cell
         } else {
@@ -114,9 +138,46 @@ extension MainViewController: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedVideoViewCell.reuseIdentifier, for: indexPath) as? FeedVideoViewCell else {
                 return UICollectionViewCell()
             }
-            cell.configureVideoCell(with: post, content: post.contents)
+            cell.configureVideoCell(with: post, content: post.contents, indexPath: indexPath)
+            cell.outerCollectionView = collectionView
             
             return cell
+        }
+    }
+}
+
+extension MainViewController: UIScrollViewDelegate {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let visibleIndexPaths = collectionView?.indexPathsForVisibleItems
+        
+        print("어떤게 스크롤 됐을까??❤️")
+        print(visibleIndexPaths)
+        
+        // scroll이 멈출 때 마다 뷰모델에 현재의 indexPath 값을 보냄
+        if let indexPath = visibleIndexPaths?.first {
+            print(indexPath)
+            viewModel.currentCellIndexPath.onNext(indexPath)
+        }
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        
+        if offsetY > contentHeight - scrollView.frame.height {
+            viewModel.fetchNextPage()
+                .subscribe(onNext: { [weak self] result in
+                    switch result {
+                    case .success(let posts):
+                        self?.viewModel.posts.accept(self?.viewModel.posts.value ?? [] + posts)
+                        self?.collectionView?.reloadData()
+                        
+                    case .failure(let error):
+                        print("Error fetching Next Page: \(error.localizedDescription)")
+                        self?.view.makeToast("API 오류 발생", duration: 3.0, position: .bottom)
+                    }
+                })
+                .disposed(by: disposeBag)
         }
     }
 }

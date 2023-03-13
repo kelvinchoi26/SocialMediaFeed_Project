@@ -14,6 +14,7 @@ final class InnerImageViewCell: BaseCollectionViewCell {
     
     var post: Post?
     var content: Content?
+    var indexPath: IndexPath?
     
     let contentImageView = UIImageView()
     
@@ -87,7 +88,7 @@ final class InnerImageViewCell: BaseCollectionViewCell {
             $0.tintColor = .white
             
             $0.setTitleColor(.white, for: .normal)
-            $0.titleLabel?.font = Constants.Font.MediumFont
+            $0.titleLabel?.font = Constants.Font.medium
             
             // Add shadow effect
             $0.shadowEffect()
@@ -99,7 +100,7 @@ final class InnerImageViewCell: BaseCollectionViewCell {
             $0.tintColor = .white
             
             $0.setTitleColor(.white, for: .normal)
-            $0.titleLabel?.font = Constants.Font.MediumFont
+            $0.titleLabel?.font = Constants.Font.medium
             
             // Add shadow effect
             $0.shadowEffect()
@@ -123,7 +124,7 @@ final class InnerImageViewCell: BaseCollectionViewCell {
         }
         
         influencerName.do {
-            $0.font = Constants.Font.MediumFont
+            $0.font = Constants.Font.medium
             $0.textColor = .white
             
             // Add shadow effect
@@ -131,7 +132,7 @@ final class InnerImageViewCell: BaseCollectionViewCell {
         }
         
         descriptionTextView.do {
-            $0.font = Constants.Font.RegularFont
+            $0.font = Constants.Font.regular
             $0.textColor = .white
             $0.backgroundColor = .clear
             
@@ -193,9 +194,10 @@ final class InnerImageViewCell: BaseCollectionViewCell {
 }
 
 extension InnerImageViewCell {
-    func configureImageCell(with post: Post, content: Content) {
+    func configureImageCell(with post: Post, content: Content, indexPath: IndexPath) {
         self.post = post
         self.content = content
+        self.indexPath = indexPath
         
         guard let imageURL = URL(string: content.contentURL) else { print("유효하지 않은 이미지 URL!")
             return

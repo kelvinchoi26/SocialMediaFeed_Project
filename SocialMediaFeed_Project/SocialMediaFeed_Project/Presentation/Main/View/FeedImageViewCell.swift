@@ -14,6 +14,7 @@ final class FeedImageViewCell: BaseCollectionViewCell {
     
     var post: Post?
     var content: [Content]?
+    var indexPath: IndexPath?
     
     let contentImageView = UIImageView()
     
@@ -32,6 +33,8 @@ final class FeedImageViewCell: BaseCollectionViewCell {
     
     let imageContainer = UIView()
     
+    // FeedVideoCell이 속한 수직 스크롤 콜렉션뷰를 참조
+    var outerCollectionView: UICollectionView?
     var innerCollectionView: UICollectionView?
     
     // MARK: - Overridden Functions
@@ -61,6 +64,8 @@ final class FeedImageViewCell: BaseCollectionViewCell {
         super.init(frame: frame)
         
         configureUI()
+        innerCollectionView?.delegate = self
+        innerCollectionView?.dataSource = self
     }
     
     required init?(coder: NSCoder) {
@@ -89,7 +94,7 @@ final class FeedImageViewCell: BaseCollectionViewCell {
             $0.tintColor = .white
             
             $0.setTitleColor(.white, for: .normal)
-            $0.titleLabel?.font = Constants.Font.MediumFont
+            $0.titleLabel?.font = Constants.Font.medium
             
             // Add shadow effect
             $0.shadowEffect()
@@ -101,7 +106,7 @@ final class FeedImageViewCell: BaseCollectionViewCell {
             $0.tintColor = .white
             
             $0.setTitleColor(.white, for: .normal)
-            $0.titleLabel?.font = Constants.Font.MediumFont
+            $0.titleLabel?.font = Constants.Font.medium
             
             // Add shadow effect
             $0.shadowEffect()
@@ -125,7 +130,7 @@ final class FeedImageViewCell: BaseCollectionViewCell {
         }
         
         influencerName.do {
-            $0.font = Constants.Font.MediumFont
+            $0.font = Constants.Font.medium
             $0.textColor = .white
             
             // Add shadow effect
@@ -133,7 +138,7 @@ final class FeedImageViewCell: BaseCollectionViewCell {
         }
         
         descriptionTextView.do {
-            $0.font = Constants.Font.RegularFont
+            $0.font = Constants.Font.regular
             $0.textColor = .white
             $0.backgroundColor = .clear
             
@@ -195,9 +200,10 @@ final class FeedImageViewCell: BaseCollectionViewCell {
 }
 
 extension FeedImageViewCell {
-    func configureImageCell(with post: Post, content: [Content]) {
+    func configureImageCell(with post: Post, content: [Content], indexPath: IndexPath) {
         self.post = post
         self.content = content
+        self.indexPath = indexPath
         
         if content.count == 1 {
             let singleContent = content[0]

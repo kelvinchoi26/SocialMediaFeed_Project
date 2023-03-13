@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct URLPath {
+enum URLPath {
     static var baseURL: String { return "https://0fjrekl8p0.execute-api.ap-northeast-1.amazonaws.com/dev/posts?page=" }
 }
