@@ -15,7 +15,7 @@ final class MainViewModel {
     // MARK: - Properties
     private let disposeBag = DisposeBag()
     private let service = FeedAPIService.shared
-    var page: Int = 0
+    var currentPage: Int = 0
     
     // BehaviorRelay - 항상 현재 값을 지니고 있음
     var posts = BehaviorRelay<[Post]>(value: [])
@@ -23,23 +23,33 @@ final class MainViewModel {
     var currentCellIndexPath = BehaviorSubject<IndexPath?>(value: nil)
     
     // MARK: - Methods
-    func fetchContents(page: Int) -> Observable<Result<[Post], Error>> {
-        self.page = page
+    func fetchContents(page: Int) -> Single<[Post]> {
+        self.currentPage = page
         
-        return Observable.create { [weak self] observer in
+        return Single.create { [weak self] single in
             self?.service.fetchPosts(page: page) { result in
                 switch result {
                 case .success(let data):
                     let posts = data.returnPosts()
-                    observer.onNext(.success(posts))
-                    observer.onCompleted()
+                    single(.success(posts))
                     
                 case .failure(let error):
-                    observer.onNext(.failure(error))
-                    observer.onCompleted()
+                    single(.failure(error))
                 }
             }
             return Disposables.create()
+        }
+    }
+
+    func fetchNextPage() -> Single<[Post]> {
+        let nextPage = currentPage + 1
+        
+        return fetchContents(page: nextPage).map { [weak self] posts -> [Post] in
+            guard let self = self else { return [] }
+            
+            self.posts.accept(self.posts.value + posts)
+            self.currentPage += 1
+            return posts
         }
     }
     
@@ -59,10 +69,5 @@ final class MainViewModel {
         
         // 현재 음소거 여부 업데이트
         isMuted.accept(!isMuted.value)
-    }
-    
-    func fetchNextPage() -> Observable<Result<[Post], Error>> {
-        page += 1
-        return fetchContents(page: page)
     }
 }

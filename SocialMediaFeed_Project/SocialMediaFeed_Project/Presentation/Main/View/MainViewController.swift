@@ -29,7 +29,7 @@ final class MainViewController: BaseViewController {
     // MARK: - Bind
     override func bind() {
         viewModel.fetchContents(page: 0)
-            .subscribe(onNext: { [weak self] result in
+            .subscribe({ [weak self] result in
                 switch result {
                 case .success(let posts):
                     self?.viewModel.posts.accept(posts)
@@ -39,8 +39,6 @@ final class MainViewController: BaseViewController {
                     print("Error fetching Content: \(error.localizedDescription)")
                     self?.showErrorView()
                 }
-            }, onError: { [weak self] _ in
-                self?.showErrorView()
             })
             .disposed(by: disposeBag)
         
@@ -166,7 +164,7 @@ extension MainViewController: UIScrollViewDelegate {
         
         if offsetY > contentHeight - scrollView.frame.height {
             viewModel.fetchNextPage()
-                .subscribe(onNext: { [weak self] result in
+                .subscribe({ [weak self] result in
                     switch result {
                     case .success(let posts):
                         self?.viewModel.posts.accept(self?.viewModel.posts.value ?? [] + posts)
