@@ -370,7 +370,6 @@
 				1EE298CD29B8C4F3000EC26C /* XCRemoteSwiftPackageReference "Alamofire" */,
 				1EE298DD29B8F58D000EC26C /* XCRemoteSwiftPackageReference "SnapKit" */,
 				1EE298E029B8F599000EC26C /* XCRemoteSwiftPackageReference "Then" */,
-				1EE298E329B8F5A7000EC26C /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				1E06030529B9E04C007BDE6D /* XCRemoteSwiftPackageReference "RxSwift" */,
 				1E5FE4C529BFAE7900B1D041 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 			);
@@ -715,14 +714,6 @@
 			requirement = {
 				kind = exactVersion;
 				version = 3.0.0;
-			};
-		};
-		1EE298E329B8F5A7000EC26C /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
-			requirement = {
-				kind = exactVersion;
-				version = 7.6.2;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

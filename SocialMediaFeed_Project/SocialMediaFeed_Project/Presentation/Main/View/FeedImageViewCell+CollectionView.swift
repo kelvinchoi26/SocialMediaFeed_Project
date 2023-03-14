@@ -35,6 +35,7 @@ extension FeedImageViewCell: UICollectionViewDataSource, UICollectionViewDelegat
             }
             
             cell.configureImageCell(with: newPost, content: newContent, indexPath: indexPath)
+            cell.indexPath = indexPath
             
             return cell
         } else {
@@ -45,6 +46,7 @@ extension FeedImageViewCell: UICollectionViewDataSource, UICollectionViewDelegat
             }
 
             cell.configureVideoCell(with: newPost, content: newContent, indexPath: indexPath)
+            cell.indexPath = indexPath
             
             return cell
         }

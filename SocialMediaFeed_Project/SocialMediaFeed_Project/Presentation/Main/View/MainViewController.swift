@@ -25,7 +25,6 @@ final class MainViewController: BaseViewController {
         configureCollectionView()
         collectionView?.delegate = self
         
-        
     }
     
     // MARK: - Bind
@@ -46,9 +45,7 @@ final class MainViewController: BaseViewController {
             .disposed(by: disposeBag)
         
         viewModel.posts
-            .asObservable()
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] _ in
+            .bind(onNext: { [weak self] _ in
                 self?.collectionView?.reloadData()
             })
             .disposed(by: disposeBag)
@@ -141,6 +138,7 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
             }
             cell.configureImageCell(with: post, content: post.contents, indexPath: indexPath)
             cell.outerCollectionView = collectionView
+            cell.indexPath = indexPath
             
             return cell
         } else {
@@ -150,6 +148,7 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
             }
             cell.configureVideoCell(with: post, content: post.contents, indexPath: indexPath)
             cell.outerCollectionView = collectionView
+            cell.indexPath = indexPath
             
             return cell
         }
@@ -158,14 +157,14 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
 
 extension MainViewController: UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let visibleIndexPaths = collectionView?.indexPathsForVisibleItems
+        guard let collectionView = collectionView else { return }
         
-        print("어떤게 스크롤 됐을까??❤️")
+        let visibleIndexPaths = collectionView.indexPathsForVisibleItems
         print(visibleIndexPaths)
-        
         // scroll이 멈출 때 마다 뷰모델에 현재의 indexPath 값을 보냄
-        if let indexPath = visibleIndexPaths?.first {
+        if let indexPath = visibleIndexPaths.first {
             print(indexPath)
+            print("❌")
             viewModel.currentCellIndexPath.onNext(indexPath)
         }
     }

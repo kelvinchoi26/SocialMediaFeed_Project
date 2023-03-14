@@ -66,10 +66,7 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
             .disposed(by: disposeBag)
         
         viewModel.isMuted
-            .asObservable()
-            .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] isMuted in
-                print("❤️❤️❤️❤️❤️")
                 self?.videoPlayer?.volume = isMuted ? 0.0 : 1.0
             })
             .disposed(by: disposeBag)
@@ -78,10 +75,10 @@ final class FeedVideoViewCell: BaseCollectionViewCell {
             .subscribe(onNext: { [weak self] indexPath in
                 guard let self = self else { return }
                 
-                print(indexPath)
-                
                 if indexPath != self.indexPath {
                     self.videoPlayer?.pause()
+                } else {
+                    self.videoPlayer?.play()
                 }
                 
             }).disposed(by: disposeBag)
