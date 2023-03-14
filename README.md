@@ -24,8 +24,6 @@
 
 ## 개발 고려 사항
 
-<br>
-
 ### 앱의 확장성 및 유지보수 측면 고려
 - BaseViewController, BaseView, BaseCollectionViewCell를 활용하여 서브 클래스들의 중복되는 코드를 관리했습니다.
 - Raw/literal한 값들을 enum으로 관리하고, extension을 활용해 반복적으로 사용되는 코드를 함수로 정의했습니다
@@ -61,8 +59,6 @@ extension Int {
 
 ## 미완성 기능
 
-<br>
-
 ### 피드 스크롤시 포커스 되는 영역에 따라, 영상이 플레이 / 정지 되어야 하는 기능
 - BehaviorRelay인 currentCellIndexPath에 해당 cell의 indexPath를 스크롤 될 때마다 저장하고 영상이 스크롤되는 경우 currentCellIndexPath와 비교하여 값이 다르면 영상이 정지되게 구현하려고 했습니다
 - Viewmodel의 currentCellIndexPath에서 nil값만 반환을 해서 구현에 실패하였습니다
@@ -74,8 +70,6 @@ extension Int {
 <br>
 
 ## 5. 회고
-
-<br>
 
 ### 아쉬움
 - 하나의 ViewModel에서 모든 클래스들의 비즈니스 로직을 담당하다 보니 비즈니스 로직의 결합도 본래 의도보다 높게 개발이 됐습니다.
